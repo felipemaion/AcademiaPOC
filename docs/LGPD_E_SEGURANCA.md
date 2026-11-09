@@ -11,6 +11,15 @@ Na prática, isso vira quatro camadas:
 3. **Não acumular:** exclusão real da conta; retenção limitada; sem exportações soltas.
 4. **Não guardar segredos no lugar errado:** nada de chave no repositório nem no navegador.
 
+### Decisões que materializam isso
+
+- **ADR 0003:** nome, WhatsApp e redes ficam **cifrados** (AES-256-GCM), com a chave fora do
+  banco. Um dump do banco não identifica ninguém.
+- **ADR 0002:** cada monitor e gestor vê só o seu escopo (turma/equipe, UF, nacional), com
+  ver contato auditado.
+- **ADR 0004:** uma campanha futura será outra organização; a base da Academia não é
+  compartilhada com ela.
+
 ## 2. LGPD — checklist
 
 | Item | Como atendemos |
@@ -33,7 +42,11 @@ Na prática, isso vira quatro camadas:
 |---|---|
 | Leitura direta da API do Supabase com a chave pública | RLS em todas as tabelas + teste no CI que **falha se existir tabela sem RLS** |
 | Aluno lê dados de outro aluno | Testes pgTAP por política ("usuário A não lê B") |
-| Aluno se promove a admin | `role` e `status` não editáveis pelo próprio usuário (política + trigger) + teste |
+| Aluno se promove a admin | Papéis só em `role_assignments`, concedidos de cima para baixo (ADR 0002) + teste |
+| Monitor ou gestor acessa fora do seu escopo | Funções `app.can_*` em todas as políticas + matriz de testes de permissão |
+| Dump do banco ou backup vazado | Nome, WhatsApp e redes cifrados; chave só nos secrets da hospedagem (ADR 0003) |
+| Monitor copia contatos em massa | Contato fora da listagem; "ver contato" auditado; exportação só nacional e sem WhatsApp |
+| Base da Academia usada em campanha | Isolamento por `organization_id` (ADR 0004) |
 | Segredo commitado | gitleaks no CI + `.gitignore` + rotação de chaves |
 | Conta de admin roubada | MFA obrigatório nas contas do GitHub, Supabase e hospedagem; no máximo 3 admins |
 | Injeção (XSS) via redes sociais ou "feitos" | Escape padrão do React; proibido `dangerouslySetInnerHTML`; links só `https://` e com `rel="noopener noreferrer"` |

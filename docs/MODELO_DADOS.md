@@ -1,87 +1,113 @@
 # Modelo de dados
 
-> **Lista fechada.** Os únicos campos de dado pessoal permitidos estão marcados com 🔒.
-> Adicionar qualquer outro exige ADR aprovado (regra R4 do `AGENTS.md`).
-> O script `scripts/check-forbidden-fields.sh` bloqueia no CI nomes de coluna proibidos.
+> **Lista fechada.** Os únicos dados pessoais permitidos estão marcados com 🔒 e são
+> **guardados cifrados** (ADR 0003). Adicionar qualquer outro exige ADR aprovado (regra R4).
+> O script `scripts/check-forbidden-fields.sh` bloqueia no CI colunas proibidas e colunas
+> pessoais em texto puro.
 
-## Campos pessoais permitidos (🔒)
+## Dados pessoais permitidos (🔒 = cifrado)
 
-| Campo | Onde | Motivo | Visível para [?] |
+| Dado | Coluna | Proteção | Quem vê (ADR 0002) |
 |---|---|---|---|
-| `display_name` | `profiles` | Identificar o aluno | Coordenação, colegas de equipe |
-| `whatsapp` (formato E.164, ex.: `+5511900000000`) | `profiles` | Contato para ações | Coordenação, colegas de equipe |
-| `municipality_code` (código IBGE) + `district` | `profiles` | Agrupar por região | Coordenação |
-| `social_links` (máximo de 5 URLs https) | `profiles` | Pedido do stakeholder | [?] |
-| `achievements` (texto curto, "feitos") | `profiles` | Pedido do stakeholder | [?] |
-| e-mail | `auth.users` (gerenciado pelo Supabase) | **Só para login**, nunca exibido nem exportado | Ninguém |
+| Nome | `profiles.display_name_enc` | AES-256-GCM | Escopo do monitor/gestor; colegas de equipe |
+| WhatsApp | `profiles.whatsapp_enc` + `whatsapp_hmac` | AES-256-GCM + HMAC | Escopo, ao clicar em "ver contato" (auditado); colegas de equipe [?] |
+| Redes sociais (máx. 5 URLs https) | `profiles.social_links_enc` | AES-256-GCM | Escopo (auditado) |
+| E-mail de login | `auth.users` (Supabase) | Texto puro, gerenciado pelo Supabase | **Ninguém**: nunca exibido nem exportado |
+
+Ficam **em texto puro**, por não identificarem sozinhos: município, UF, turma, equipe,
+habilidades, tarefas e badges.
+
+> **"Feitos" = tarefas concluídas e validadas.** Não existe campo de texto livre para isso.
 
 ## Proibidos
 
 CPF, RG, título de eleitor, endereço/CEP, data de nascimento, gênero, raça, religião, filiação
-partidária declarada, foto de rosto, foto de documento, geolocalização precisa (lat/long), IP
-armazenado em tabela de negócio.
+partidária, foto de rosto, foto de documento, geolocalização precisa, IP em tabela de negócio,
+e **qualquer coluna `display_name`, `whatsapp` ou `social_links` sem o sufixo `_enc`**.
 
 ## Entidades
 
 ```
-profiles (1) ──< profile_skills >── (N) skills
-profiles (1) ──< team_members >── (N) teams
-teams (1) ──< actions
-actions (1) ──< action_assignees >── profiles
-badges (1) ──< profile_badges >── profiles
-audit_log (registra quem fez o quê nas ações sensíveis)
+organizations ─┬─< classes (turmas, por UF) ─< teams (equipes)
+               │
+profiles ──────┼─< class_members >── classes
+               ├─< team_members  >── teams
+               ├─< profile_skills >── skills
+               ├─< role_assignments          (escopo: nacional | UF | turma | equipe)
+               ├─< task_assignees >── tasks  (tarefa de pessoa ou de equipe)
+               ├─< task_completions          (o "feito": entrega + validação)
+               └─< profile_badges >── badges
+audit_log
 ```
+
+**Todas as tabelas de negócio têm `organization_id`** (ADR 0004) e **RLS habilitada**.
+
+### `organizations`
+`id`, `name`, `slug`, `created_at`. No POC há uma só (a Academia).
 
 ### `profiles`
 | Coluna | Tipo | Observação |
 |---|---|---|
 | `id` | uuid PK | = `auth.users.id` |
-| `display_name` | text | 2 a 80 caracteres 🔒 |
-| `whatsapp` | text | E.164, validado 🔒 |
-| `municipality_code` | int | IBGE; FK para `municipalities` 🔒 |
-| `district` | text null | Lista fechada para a capital [?] 🔒 |
-| `social_links` | jsonb | array de no máximo 5 URLs https 🔒 |
-| `achievements` | text null | até 500 caracteres 🔒 |
-| `role` | enum | `student`, `team_lead`, `coordinator`, `admin` (só admin altera) |
+| `organization_id` | uuid FK | |
+| `display_name_enc` | text | 🔒 `v1.iv.ct` (ADR 0003 §3) |
+| `whatsapp_enc` | text | 🔒 |
+| `whatsapp_hmac` | text | único por organização |
+| `social_links_enc` | text null | 🔒 JSON cifrado |
+| `municipality_code` | int FK | IBGE |
+| `state_code` | char(2) | derivado do município (trigger); base do escopo estadual |
+| `district` | text null | distrito da capital [?] |
 | `status` | enum | `pending`, `active`, `suspended` |
-| `consent_version` | text | versão do termo aceito |
-| `consent_at` | timestamptz | |
-| `created_at` / `updated_at` | timestamptz | |
+| `consent_version`, `consent_at` | text, timestamptz | |
+| `created_at`, `updated_at` | timestamptz | |
 
-### `municipalities` (pública, só leitura)
-`code` (IBGE), `name`, `state` (UF), `metro_region` (bool). A seed inclui os 39 municípios
-da RMSP; a expansão para o estado e o país só acrescenta linhas.
+O papel **não** fica no perfil: fica em `role_assignments`.
 
-### `skills` / `profile_skills`
-`skills`: `id`, `name`, `category`, `active`.
-`profile_skills`: `profile_id`, `skill_id`, `level` [?].
+### `municipalities` (referência pública, só leitura)
+`code` (IBGE), `name`, `state_code`, `metro_region`.
 
-### `teams` / `team_members`
-`teams`: `id`, `name`, `description`, `municipality_code` (opcional), `status`, `created_by`.
+### `classes` (turmas) e `class_members`
+`classes`: `id`, `organization_id`, `name`, `state_code`, `municipality_code` null,
+`starts_on`, `ends_on`, `status`.
+`class_members`: `class_id`, `profile_id`, `joined_at`.
+
+### `teams` e `team_members`
+`teams`: `id`, `organization_id`, `class_id` (opcional [?]), `state_code`, `name`,
+`description`, `status`, `created_by`.
 `team_members`: `team_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`.
 
-### `actions` / `action_assignees`
-`actions`: `id`, `team_id`, `title`, `description`, `status` (`todo`, `doing`, `review`,
-`done`), `due_date`, `created_by`, `approved_by`, `approved_at`.
-`action_assignees`: `action_id`, `profile_id`.
+### `role_assignments` (ADR 0002)
+`id`, `organization_id`, `profile_id`, `role` (`monitor`, `state_manager`,
+`national_manager`, `tech_admin`), `state_code` null, `class_id` null, `team_id` null,
+`granted_by`, `granted_at`, `revoked_at`.
+Uma constraint garante que o escopo seja coerente com o papel.
 
-### `badges` / `profile_badges`
-`badges`: `id`, `name`, `description`, `icon`, `rule_type` (`manual`, `actions_count`,
-`specific_action`, …), `rule_params` (jsonb).
+### `skills` e `profile_skills`
+`skills`: `id`, `organization_id`, `name`, `category`, `active`.
+`profile_skills`: `profile_id`, `skill_id`, `level` [?].
+
+### `tasks`, `task_assignees` e `task_completions`
+`tasks`: `id`, `organization_id`, `scope_type` (`team`, `class`, `state`, `national`),
+`team_id`/`class_id`/`state_code`, `title`, `description`, `due_date`, `badge_id` null
+(badge concedido ao concluir), `created_by`, `status`.
+`task_assignees`: `task_id`, `profile_id` (vazio = vale para todos do escopo).
+`task_completions`: `id`, `task_id`, `profile_id`, `evidence_url` null (https),
+`submitted_at`, `status` (`submitted`, `approved`, `rejected`), `reviewed_by`,
+`reviewed_at`, `review_note`.
+
+### `badges` e `profile_badges`
+`badges`: `id`, `organization_id`, `name`, `description`, `icon`, `rule_type` (`manual`,
+`task`, `tasks_count`), `rule_params` jsonb.
 `profile_badges`: `profile_id`, `badge_id`, `awarded_at`, `awarded_by` (null quando
-automática), `reason`, `action_id` (opcional).
+automático), `task_completion_id` null, `reason`.
 
 ### `audit_log`
-`id`, `actor_id`, `event` (ex.: `role_changed`, `profile_exported`, `badge_granted`),
-`target_id`, `created_at`. **Sem dados pessoais no payload.**
+`id`, `organization_id`, `actor_id`, `event` (`contact_viewed`, `role_granted`,
+`role_revoked`, `export`, `badge_granted`, `account_deleted`), `target_id`, `created_at`.
+**Nunca contém dados pessoais em claro.** Só os gestores leem, e só dentro do seu escopo.
 
-## Regras de acesso (RLS) — resumo
+## Acesso
 
-| Tabela | Aluno | Líder | Coordenador | Admin |
-|---|---|---|---|---|
-| `profiles` (próprio) | lê e edita (exceto `role` e `status`) | = | = | = |
-| `profiles` (outros) | colegas de equipe: nome e WhatsApp | = | lê todos [?] | lê e edita |
-| `teams` | as suas | as suas | todas | todas |
-| `actions` | da sua equipe; muda status | + pede revisão | cria e aprova | tudo |
-| `profile_badges` | as suas [?] | = | concede | tudo |
-| `audit_log` | — | — | — | lê |
+A matriz completa está em [`adr/0002-permissoes-hierarquicas.md`](adr/0002-permissoes-hierarquicas.md).
+Toda política RLS usa as funções `app.can_*`, e toda mudança atualiza
+`supabase/tests/permissions_matrix.test.sql`.

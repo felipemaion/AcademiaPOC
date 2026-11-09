@@ -1,6 +1,6 @@
 # Roadmap
 
-> Gerado a partir das issues iniciais. **A fonte da verdade são as Issues e os Milestones do GitHub**; este arquivo é só um retrato do plano inicial.
+> Retrato das Issues abertas em 2026-11-09. **A fonte da verdade são as Issues e os Milestones do GitHub.**
 
 | Milestone | Data-alvo | Entrega |
 |---|---|---|
@@ -13,67 +13,70 @@
 | M6 · Piloto RMSP | 2027-03-01 | Produção, revisão de segurança, teste com grupo pequeno e lançamento na Região Metropolitana. |
 | M7 · Expansão SP/Brasil | a definir | Coordenação regional com escopo e ampliação da base de municípios. |
 
-Datas sujeitas à disponibilidade dos voluntários e às respostas do kickoff.
-
 ## M0 · Fundação e decisões
 
-- Reunião de kickoff: responder as perguntas bloqueantes (⛔) — `docs, precisa-decisao`
-- Aprovar ADR 0001 (stack) e escolher a hospedagem gratuita — `docs, infra, precisa-decisao`
-- Scaffold: Next.js + TypeScript estrito + Tailwind + Zod + Vitest + `npm run check` — `infra, bloqueada`
-- Supabase local + migrations + teste 'toda tabela pública tem RLS' — `backend, infra, seguranca, bloqueada`
-- Playwright configurado com um teste E2E de fumaça no CI — `infra, bloqueada`
-- Proteger a `main`, CODEOWNERS e MFA dos mantenedores — `infra, seguranca, pronta`
-- Rascunho do termo de consentimento e da página 'Seus dados' — `docs, precisa-decisao`
-- Seeds: municípios da RMSP, catálogo inicial de habilidades e dados fictícios — `backend, bloqueada, bom-primeiro-issue`
+- #1 Reunião de kickoff: responder as perguntas bloqueantes (⛔) — `precisa-decisao, docs`
+- #2 Aprovar ADR 0001 (stack) e escolher a hospedagem gratuita — `precisa-decisao, infra, docs`
+- #3 Scaffold: Next.js + TypeScript estrito + Tailwind + Zod + Vitest + `npm run check` — `bloqueada, infra`
+- #4 Supabase local + migrations + teste 'toda tabela pública tem RLS' — `bloqueada, seguranca, backend, infra`
+- #5 Playwright configurado com um teste E2E de fumaça no CI — `bloqueada, infra`
+- #6 Proteger a `main`, CODEOWNERS e MFA dos mantenedores — `pronta, seguranca, infra`
+- #7 Rascunho do termo de consentimento e da página 'Seus dados' — `precisa-decisao, docs`
+- #8 Seeds: municípios da RMSP, catálogo inicial de habilidades e dados fictícios — `bloqueada, bom-primeiro-issue, backend`
+- #45 Módulo de criptografia de campo (`src/server/crypto`) + HMAC — `bloqueada, seguranca, backend`
 
 ## M1 · Cadastro do aluno
 
-- Login (Google + link mágico) com link de convite — `backend, frontend, seguranca, bloqueada`
-- Tabela `profiles` + RLS + trigger que impede auto-promoção — `backend, seguranca, bloqueada`
-- Tela de consentimento obrigatória antes do perfil — `frontend, bloqueada`
-- Formulário de perfil: nome, WhatsApp e localização — `frontend, bloqueada`
-- Habilidades: seleção a partir do catálogo — `frontend, backend, bloqueada`
-- Redes sociais e 'feitos' com proteção contra XSS — `frontend, seguranca, bloqueada`
-- Excluir minha conta (exclusão real) — `backend, frontend, seguranca, bloqueada`
-- Baixar meus dados (JSON) — `backend, frontend, bloqueada, bom-primeiro-issue`
-- E2E do fluxo completo de cadastro — `infra, bloqueada`
+- #9 Login (Google + link mágico) com link de convite — `bloqueada, seguranca, frontend, backend`
+- #10 Tabela `profiles` com dados pessoais cifrados + RLS por escopo — `bloqueada, seguranca, backend`
+- #11 Tela de consentimento obrigatória antes do perfil — `bloqueada, frontend`
+- #12 Formulário de perfil: nome, WhatsApp e localização — `bloqueada, frontend`
+- #15 Habilidades: seleção a partir do catálogo — `bloqueada, frontend, backend`
+- #17 Redes sociais (cifradas) com proteção contra XSS — `bloqueada, seguranca, frontend`
+- #18 Excluir minha conta (exclusão real) — `bloqueada, seguranca, frontend, backend`
+- #20 Baixar meus dados (JSON) — `bloqueada, bom-primeiro-issue, frontend, backend`
+- #21 E2E do fluxo completo de cadastro — `bloqueada, infra`
+- #46 Hierarquia e escopos: organizations, classes, role_assignments + funções `app.can_*` + matriz de testes — `bloqueada, seguranca, backend`
 
 ## M2 · Painel da coordenação
 
-- Papéis (aluno, líder, coordenador, admin) e gestão por admin + audit_log — `backend, seguranca, bloqueada`
-- Lista de alunos com filtros por habilidade, município e distrito — `frontend, backend, bloqueada`
-- Contagem de alunos por região — `frontend, backend, bloqueada, bom-primeiro-issue`
-- Gestão do catálogo de habilidades (admin) — `frontend, backend, bloqueada`
-- Aprovação de cadastros pendentes — `backend, frontend, precisa-decisao, bloqueada`
+- #22 Delegação de papéis por escopo (nacional → estadual → monitor) + audit_log — `bloqueada, seguranca, backend`
+- #23 Lista de alunos com filtros por habilidade, município e distrito — `bloqueada, frontend, backend`
+- #24 Contagem de alunos por região — `bloqueada, bom-primeiro-issue, frontend, backend`
+- #25 Gestão do catálogo de habilidades (admin) — `bloqueada, frontend, backend`
+- #26 Aprovação de cadastros pendentes — `bloqueada, precisa-decisao, frontend, backend`
+- #47 Turmas: criar turma, matricular alunos e nomear monitor — `bloqueada, frontend, backend`
+- #48 'Ver contato' com auditoria — `bloqueada, seguranca, frontend, backend`
 
 ## M3 · Equipes (incubadoras)
 
-- Tabelas `teams` e `team_members` + RLS — `backend, seguranca, bloqueada`
-- Criar equipe e adicionar membros a partir dos filtros — `frontend, backend, bloqueada`
-- Definir líder e página 'Minhas equipes' — `frontend, backend, bloqueada`
+- #27 Tabelas `teams` e `team_members` + RLS — `bloqueada, seguranca, backend`
+- #28 Criar equipe e adicionar membros a partir dos filtros — `bloqueada, frontend, backend`
+- #29 Definir líder e página 'Minhas equipes' — `bloqueada, frontend, backend`
 
 ## M4 · Ações (quadro)
 
-- Tabelas `actions` e `action_assignees` + RLS — `backend, seguranca, bloqueada`
-- Quadro por equipe (A fazer / Fazendo / Em revisão / Feito) — `frontend, bloqueada`
-- Fluxo de aprovação de conclusão — `backend, frontend, bloqueada`
-- Ação em lote para várias equipes (campanha) — `backend, frontend, precisa-decisao, bloqueada`
+- #30 Tabelas `tasks`, `task_assignees` e `task_completions` + RLS por escopo — `bloqueada, seguranca, backend`
+- #31 Lista/quadro de tarefas do aluno e do monitor — `bloqueada, frontend`
+- #32 Validação de feitos pelo monitor/gestor do escopo — `bloqueada, frontend, backend`
+- #33 Tarefa para um escopo inteiro (turma, UF ou nacional) — `bloqueada, precisa-decisao, frontend, backend`
 
 ## M5 · Medalhas
 
-- Tabelas `badges` e `profile_badges` + RLS — `backend, seguranca, bloqueada`
-- Concessão manual de medalha com justificativa — `frontend, backend, bloqueada`
-- Regras automáticas de medalha (ex.: N ações concluídas) — `backend, bloqueada`
-- Exibir medalhas no perfil — `frontend, bloqueada, bom-primeiro-issue`
+- #34 Tabelas `badges` e `profile_badges` + RLS — `bloqueada, seguranca, backend`
+- #35 Concessão manual de medalha com justificativa — `bloqueada, frontend, backend`
+- #36 Regras automáticas de medalha (ex.: N ações concluídas) — `bloqueada, backend`
+- #37 Exibir medalhas no perfil — `bloqueada, bom-primeiro-issue, frontend`
+- #49 Painel de acompanhamento por escopo — `bloqueada, frontend, backend`
 
 ## M6 · Piloto RMSP
 
-- Produção: deploy, domínio, secrets e backup semanal — `infra, seguranca, bloqueada`
-- Revisão de segurança pré-lançamento — `seguranca, bloqueada`
-- Teste com grupo pequeno (10–20 alunos) e coleta de feedback — `docs, bloqueada`
-- Lançamento na RMSP e acompanhamento das métricas — `docs, bloqueada`
+- #38 Produção: deploy, domínio, secrets e backup semanal — `bloqueada, seguranca, infra`
+- #39 Revisão de segurança pré-lançamento — `bloqueada, seguranca`
+- #40 Teste com grupo pequeno (10–20 alunos) e coleta de feedback — `bloqueada, docs`
+- #41 Lançamento na RMSP e acompanhamento das métricas — `bloqueada, docs`
+- #50 Chaves de criptografia: geração, backup offline e rotação — `bloqueada, seguranca, infra`
 
 ## M7 · Expansão SP/Brasil
 
-- Coordenadores regionais com escopo por região (desenho) — `backend, seguranca, docs`
-- Expandir municípios (SP e Brasil) e reavaliar limites gratuitos — `backend, infra`
+- #43 Expandir municípios (SP e Brasil) e reavaliar limites gratuitos — `backend, infra`

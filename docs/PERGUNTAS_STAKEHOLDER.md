@@ -1,5 +1,35 @@
 # Perguntas para o stakeholder (reunião de kickoff)
 
+## Respostas já registradas (2026-11-09)
+
+| Tema | Resposta | Onde ficou registrado |
+|---|---|---|
+| Objetivo (#1) | Monitores e gestores identificam habilidades, criam tarefas, acompanham os feitos e dão badges | PLANEJAMENTO §0 |
+| Quem desenvolve (#39) | Alunos de TI da Academia; o gestor do projeto é o sênior e revisor | PLANEJAMENTO §0 |
+| Papéis e escopo (#5, #40) | Monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo | ADR 0002 |
+| Proteção dos dados (#43) | Dados pessoais cifrados no banco; hash para unicidade | ADR 0003 |
+| "Feitos" (#14) | Tarefas concluídas e validadas, não texto livre | MODELO_DADOS |
+| Uso futuro | Campanhas eleitorais, como organização separada | ADR 0004 |
+| Repositório | Público (permite proteger a `main` no plano gratuito) | — |
+
+## Novas perguntas (após as definições)
+
+46. ⛔ **O que é uma turma?** Tem monitor fixo, datas de início e fim? Um aluno pode estar em
+    mais de uma turma? Uma equipe pertence sempre a uma turma, ou pode misturar turmas?
+47. ⛔ **O monitor vê o WhatsApp dos alunos do seu escopo?** Sugestão: sim, ao clicar em
+    "ver contato", com registro. **E os colegas de equipe se veem?**
+48. **Existe nível entre o estado e a turma** (região metropolitana, município)? Se houver,
+    é bom saber agora.
+49. **Quem cria tarefas para quem?** O nacional cria para todos e o monitor para a sua turma?
+    A tarefa é individual, da equipe inteira, ou ambos?
+50. **A validação de um feito exige evidência** (um link)? Quem valida: o monitor da turma?
+51. **Badges:** só o nacional cria badges, ou o estadual também? Monitor concede badge manual?
+52. **Acompanhamento:** que painel cada nível quer ver? (Ex.: feitos por turma, alunos sem
+    tarefa há 30 dias, ranking de equipes.)
+53. **Jurídico — campanhas:** usar a plataforma numa campanha exige organização, termo e
+    cadastro separados. A base de alunos não pode ser repassada (Lei 9.504, art. 57-E;
+    LGPD art. 11). Confirmar com o jurídico.
+
 As perguntas estão em ordem de prioridade. As marcadas com ⛔ **bloqueiam o desenvolvimento**:
 sem resposta, o M1 não começa. Ao lado de cada uma está a **sugestão padrão**, que vale caso
 ele não tenha preferência.

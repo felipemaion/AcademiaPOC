@@ -3,6 +3,18 @@
 > Versão 0.1 (2026-11-09). Rascunho antes da reunião de kickoff. Itens marcados **[?]**
 > dependem de resposta em `PERGUNTAS_STAKEHOLDER.md`.
 
+## 0. Contexto (atualizado em 2026-11-09)
+
+- **Quem desenvolve:** alunos de TI da própria Academia (Valete/MBL), a maioria fazendo
+  "vibe coding" com IA. O gestor do projeto atua como sênior e revisor (code owner).
+- **Quem usa:** os **monitores** e **gestores** da Academia, para identificar habilidades,
+  criar tarefas, acompanhar os **feitos** (tarefas concluídas e validadas) e dar **badges**.
+  Os alunos se cadastram e executam as tarefas.
+- **Futuro:** a mesma plataforma poderá gerir equipes de **campanhas eleitorais**, como
+  organização separada (ADR 0004).
+- **Segurança definida:** dados pessoais cifrados (ADR 0003) e acesso hierárquico por escopo
+  (ADR 0002): monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo.
+
 ## 1. Visão
 
 Dar à coordenação da Academia uma visão clara de **quem são os alunos, onde estão e o que
@@ -37,14 +49,18 @@ executa com **medalhas virtuais**. Tudo isso com o mínimo de dados pessoais e c
 - Ranking público.
 - Coordenação multi-estado (fica preparada no modelo, mas não é exposta na interface).
 
-## 4. Personas e papéis [?]
+## 4. Personas e papéis (definidos — ADR 0002)
 
-| Papel | Pode |
-|---|---|
-| **Aluno** | Criar e editar o próprio perfil, ver as próprias equipes, ações e medalhas, excluir a conta |
-| **Líder de equipe** | Tudo do aluno + mover ações da equipe e pedir aprovação de conclusão |
-| **Coordenador** | Ver todos os perfis (da sua região, na expansão), criar equipes e ações, aprovar conclusões, conceder medalhas |
-| **Administrador** | Tudo + gerenciar papéis, catálogo de habilidades e medalhas. Máximo de 2 a 3 pessoas |
+| Papel | Escopo | Pode |
+|---|---|---|
+| **Aluno** | si mesmo | Editar e excluir o próprio perfil; ver suas turmas, equipes, tarefas e badges; enviar a conclusão de tarefas |
+| **Monitor** | turmas/equipes atribuídas | Ver os alunos do escopo e suas habilidades; criar tarefas; validar feitos; conceder badges |
+| **Gestor estadual** | sua UF | Tudo do monitor na UF + criar turmas e equipes + nomear monitores |
+| **Gestor nacional** | tudo | Tudo + catálogo de habilidades e badges + nomear gestores estaduais |
+| **Admin técnico** | sistema | Configuração e primeiro gestor nacional. **Não vê dados pessoais** |
+
+O líder de equipe é um papel dentro da equipe (`team_members.member_role`), sem acesso extra a
+dados [?].
 
 ## 5. Requisitos funcionais (histórias)
 
