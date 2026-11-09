@@ -1,6 +1,8 @@
 # ADR 0004 — Multi-organização (preparação para campanhas)
 
-- **Status:** Aceito
+- **Status:** Substituído pelo [ADR 0005](0005-framework-e-hierarquia-generica.md): cada
+  uso (Academia, campanha) é uma **instância separada**, não uma organização dentro do mesmo
+  banco. Os pontos jurídicos abaixo continuam válidos.
 - **Data:** 2026-11-09
 
 ## Contexto

@@ -1,5 +1,8 @@
 # Como contribuir
 
+Primeira vez? Faça antes o [`docs/ONBOARDING.md`](docs/ONBOARDING.md). Ritmo, quadro e
+papéis da equipe estão em [`docs/GESTAO_EQUIPE.md`](docs/GESTAO_EQUIPE.md).
+
 ## Fluxo
 
 ```

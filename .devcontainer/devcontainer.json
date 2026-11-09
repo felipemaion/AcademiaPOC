@@ -1,0 +1,30 @@
+{
+  "name": "AcademiaPOC",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb"
+  },
+  "forwardPorts": [3000, 54321, 54323],
+  "portsAttributes": {
+    "3000": { "label": "App" },
+    "54321": { "label": "Supabase API" },
+    "54323": { "label": "Supabase Studio (dados fictícios)" }
+  },
+  "postCreateCommand": "if [ -f package.json ]; then npm ci; else echo 'Scaffold ainda não existe (ver issues do M0).'; fi",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-playwright.playwright",
+        "supabase.vscode-supabase-extension"
+      ]
+    }
+  }
+}

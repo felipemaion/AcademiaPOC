@@ -11,7 +11,7 @@
   criar tarefas, acompanhar os **feitos** (tarefas concluídas e validadas) e dar **badges**.
   Os alunos se cadastram e executam as tarefas.
 - **Futuro:** a mesma plataforma poderá gerir equipes de **campanhas eleitorais**, como
-  organização separada (ADR 0004).
+  **instância separada** do mesmo código, que funciona como framework (ADR 0005).
 - **Segurança definida:** dados pessoais cifrados (ADR 0003) e acesso hierárquico por escopo
   (ADR 0002): monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo.
 

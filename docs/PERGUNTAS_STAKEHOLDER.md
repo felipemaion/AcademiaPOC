@@ -9,7 +9,7 @@
 | Papéis e escopo (#5, #40) | Monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo | ADR 0002 |
 | Proteção dos dados (#43) | Dados pessoais cifrados no banco; hash para unicidade | ADR 0003 |
 | "Feitos" (#14) | Tarefas concluídas e validadas, não texto livre | MODELO_DADOS |
-| Uso futuro | Campanhas eleitorais, como organização separada | ADR 0004 |
+| Uso futuro | Campanhas eleitorais e times de TI, como instâncias separadas do mesmo framework | ADR 0005 |
 | Repositório | Público (permite proteger a `main` no plano gratuito) | — |
 
 ## Novas perguntas (após as definições)

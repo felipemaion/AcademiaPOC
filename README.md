@@ -17,6 +17,14 @@ Desenvolvida pelos próprios alunos de TI da Academia.
 > **Estado atual:** planejamento (Milestone M0). A stack ainda é uma *proposta* e precisa ser
 > validada na reunião com o stakeholder. Veja `docs/PERGUNTAS_STAKEHOLDER.md`.
 
+## 👋 Chegou agora? Comece pelo [`docs/ONBOARDING.md`](docs/ONBOARDING.md)
+
+Ele leva você do zero ao projeto rodando (Docker ou Codespaces) e ao primeiro PR.
+Como a equipe trabalha: [`docs/GESTAO_EQUIPE.md`](docs/GESTAO_EQUIPE.md).
+
+> O código é um **framework reutilizável** (ADR 0005): a Academia é a primeira instância.
+> Outros usos (campanhas, times de TI) serão deploys separados do mesmo código.
+
 ## Leia nesta ordem
 
 | Documento | Para quê |
@@ -28,7 +36,7 @@ Desenvolvida pelos próprios alunos de TI da Academia.
 | [`docs/MODELO_DADOS.md`](docs/MODELO_DADOS.md) | Entidades e lista fechada de campos permitidos |
 | [`docs/LGPD_E_SEGURANCA.md`](docs/LGPD_E_SEGURANCA.md) | Minimização de dados, ameaças e controles |
 | [`docs/PERGUNTAS_STAKEHOLDER.md`](docs/PERGUNTAS_STAKEHOLDER.md) | Perguntas em aberto para a reunião |
-| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · 0004 multi-organização |
+| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · ~~0004~~ · **0005 framework e hierarquia genérica** |
 | [`SECURITY.md`](SECURITY.md) | Como reportar uma vulnerabilidade |
 
 ## Onde está cada coisa

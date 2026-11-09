@@ -1,6 +1,9 @@
 # ADR 0002 — Permissões hierárquicas por escopo
 
-- **Status:** Aceito (definido pelo gestor do projeto em 2026-11-09)
+- **Status:** Aceito (definido pelo gestor do projeto em 2026-11-09). As **regras de acesso**
+  continuam valendo; a **estrutura** (tabelas de estado/turma/equipe e `organization_id`) foi
+  substituída pela hierarquia genérica de unidades do
+  [ADR 0005](0005-framework-e-hierarquia-generica.md).
 - **Data:** 2026-11-09
 
 ## Contexto
