@@ -1,6 +1,6 @@
 # Roadmap
 
-> Retrato das Issues abertas em 2026-11-09. **A fonte da verdade são as Issues e os Milestones do GitHub.**
+> Retrato das Issues abertas. **A fonte da verdade são as Issues, os Milestones e o quadro do GitHub Projects.**
 
 | Milestone | Data-alvo | Entrega |
 |---|---|---|
@@ -24,6 +24,8 @@
 - #7 Rascunho do termo de consentimento e da página 'Seus dados' — `precisa-decisao, docs`
 - #8 Seeds: municípios da RMSP, catálogo inicial de habilidades e dados fictícios — `bloqueada, bom-primeiro-issue, backend`
 - #45 Módulo de criptografia de campo (`src/server/crypto`) + HMAC — `bloqueada, seguranca, backend`
+- #52 Ambiente de dev: scripts `npm run setup`/`db:*`, `.env.example` e devcontainer validado — `bloqueada, infra`
+- #53 Validar o ONBOARDING com o primeiro dev novo — `bloqueada, bom-primeiro-issue, docs`
 
 ## M1 · Cadastro do aluno
 
@@ -36,7 +38,8 @@
 - #18 Excluir minha conta (exclusão real) — `bloqueada, seguranca, frontend, backend`
 - #20 Baixar meus dados (JSON) — `bloqueada, bom-primeiro-issue, frontend, backend`
 - #21 E2E do fluxo completo de cadastro — `bloqueada, infra`
-- #46 Hierarquia e escopos: organizations, classes, role_assignments + funções `app.can_*` + matriz de testes — `bloqueada, seguranca, backend`
+- #46 Hierarquia genérica: unit_types, units (ltree), unit_members, role_assignments + funções `app.can_*` + matriz de testes — `bloqueada, seguranca, backend`
+- #54 Configuração da instância (`config/instance.ts`) e rótulos — `bloqueada, frontend, backend`
 
 ## M2 · Painel da coordenação
 
@@ -45,12 +48,11 @@
 - #24 Contagem de alunos por região — `bloqueada, bom-primeiro-issue, frontend, backend`
 - #25 Gestão do catálogo de habilidades (admin) — `bloqueada, frontend, backend`
 - #26 Aprovação de cadastros pendentes — `bloqueada, precisa-decisao, frontend, backend`
-- #47 Turmas: criar turma, matricular alunos e nomear monitor — `bloqueada, frontend, backend`
+- #47 Unidades: criar turmas e equipes, matricular alunos e nomear monitores — `bloqueada, frontend, backend`
 - #48 'Ver contato' com auditoria — `bloqueada, seguranca, frontend, backend`
 
 ## M3 · Equipes (incubadoras)
 
-- #27 Tabelas `teams` e `team_members` + RLS — `bloqueada, seguranca, backend`
 - #28 Criar equipe e adicionar membros a partir dos filtros — `bloqueada, frontend, backend`
 - #29 Definir líder e página 'Minhas equipes' — `bloqueada, frontend, backend`
 

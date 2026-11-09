@@ -28,34 +28,39 @@ e **qualquer coluna `display_name`, `whatsapp` ou `social_links` sem o sufixo `_
 ## Entidades
 
 ```
-organizations ─┬─< classes (turmas, por UF) ─< teams (equipes)
-               │
-profiles ──────┼─< class_members >── classes
-               ├─< team_members  >── teams
-               ├─< profile_skills >── skills
-               ├─< role_assignments          (escopo: nacional | UF | turma | equipe)
-               ├─< task_assignees >── tasks  (tarefa de pessoa ou de equipe)
-               ├─< task_completions          (o "feito": entrega + validação)
-               └─< profile_badges >── badges
+unit_types ─< units (árvore: nacional > estado > turma > equipe, via ltree)
+                │
+profiles ───────┼─< unit_members >── units
+                ├─< role_assignments >── units   (papel vale na unidade e abaixo dela)
+                ├─< profile_skills >── skills
+                ├─< task_assignees >── tasks ──> units (tarefa pertence a uma unidade)
+                ├─< task_completions             (o "feito": entrega + validação)
+                └─< profile_badges >── badges
 audit_log
 ```
 
-**Todas as tabelas de negócio têm `organization_id`** (ADR 0004) e **RLS habilitada**.
+**Uma instância por uso** (ADR 0005): o banco da Academia só tem dados da Academia. Todas as
+tabelas têm **RLS habilitada**.
 
-### `organizations`
-`id`, `name`, `slug`, `created_at`. No POC há uma só (a Academia).
+### Exemplo concreto da árvore (instância Academia)
+
+| `units.path` | tipo | Quem enxerga |
+|---|---|---|
+| `br` | Nacional | gestor nacional |
+| `br.sp` | Estado | gestor de SP (+ nacional) |
+| `br.sp.turma_2026_1` | Turma | monitor da turma (+ SP + nacional) |
+| `br.sp.turma_2026_1.equipe_azul` | Equipe | monitor da equipe (+ todos acima) |
 
 ### `profiles`
 | Coluna | Tipo | Observação |
 |---|---|---|
 | `id` | uuid PK | = `auth.users.id` |
-| `organization_id` | uuid FK | |
 | `display_name_enc` | text | 🔒 `v1.iv.ct` (ADR 0003 §3) |
 | `whatsapp_enc` | text | 🔒 |
-| `whatsapp_hmac` | text | único por organização |
+| `whatsapp_hmac` | text | único |
 | `social_links_enc` | text null | 🔒 JSON cifrado |
 | `municipality_code` | int FK | IBGE |
-| `state_code` | char(2) | derivado do município (trigger); base do escopo estadual |
+| `state_code` | char(2) | derivado do município (trigger); no cadastro, o aluno entra na unidade do seu estado |
 | `district` | text null | distrito da capital [?] |
 | `status` | enum | `pending`, `active`, `suspended` |
 | `consent_version`, `consent_at` | text, timestamptz | |
@@ -66,29 +71,23 @@ O papel **não** fica no perfil: fica em `role_assignments`.
 ### `municipalities` (referência pública, só leitura)
 `code` (IBGE), `name`, `state_code`, `metro_region`.
 
-### `classes` (turmas) e `class_members`
-`classes`: `id`, `organization_id`, `name`, `state_code`, `municipality_code` null,
-`starts_on`, `ends_on`, `status`.
-`class_members`: `class_id`, `profile_id`, `joined_at`.
+### `unit_types`, `units` e `unit_members` (ADR 0005)
+`unit_types`: `id`, `key`, `label`, `level` (rótulos configuráveis por instância).
+`units`: `id`, `type_id`, `parent_id`, `name`, `path` (ltree, índice GiST), `state_code`
+null, `starts_on`/`ends_on` null, `status`.
+`unit_members`: `unit_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`.
 
-### `teams` e `team_members`
-`teams`: `id`, `organization_id`, `class_id` (opcional [?]), `state_code`, `name`,
-`description`, `status`, `created_by`.
-`team_members`: `team_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`.
-
-### `role_assignments` (ADR 0002)
-`id`, `organization_id`, `profile_id`, `role` (`monitor`, `state_manager`,
-`national_manager`, `tech_admin`), `state_code` null, `class_id` null, `team_id` null,
-`granted_by`, `granted_at`, `revoked_at`.
-Uma constraint garante que o escopo seja coerente com o papel.
+### `role_assignments` (ADR 0002 + 0005)
+`id`, `profile_id`, `role` (`monitor`, `manager`, `tech_admin`), `unit_id`, `granted_by`,
+`granted_at`, `revoked_at`. O papel vale na unidade **e em todas abaixo dela**.
 
 ### `skills` e `profile_skills`
-`skills`: `id`, `organization_id`, `name`, `category`, `active`.
+`skills`: `id`, `name`, `category`, `active`.
 `profile_skills`: `profile_id`, `skill_id`, `level` [?].
 
 ### `tasks`, `task_assignees` e `task_completions`
-`tasks`: `id`, `organization_id`, `scope_type` (`team`, `class`, `state`, `national`),
-`team_id`/`class_id`/`state_code`, `title`, `description`, `due_date`, `badge_id` null
+`tasks`: `id`, `unit_id` (vale para a unidade e as de baixo), `title`, `description`,
+`due_date`, `badge_id` null
 (badge concedido ao concluir), `created_by`, `status`.
 `task_assignees`: `task_id`, `profile_id` (vazio = vale para todos do escopo).
 `task_completions`: `id`, `task_id`, `profile_id`, `evidence_url` null (https),
@@ -96,13 +95,13 @@ Uma constraint garante que o escopo seja coerente com o papel.
 `reviewed_at`, `review_note`.
 
 ### `badges` e `profile_badges`
-`badges`: `id`, `organization_id`, `name`, `description`, `icon`, `rule_type` (`manual`,
+`badges`: `id`, `name`, `description`, `icon`, `rule_type` (`manual`,
 `task`, `tasks_count`), `rule_params` jsonb.
 `profile_badges`: `profile_id`, `badge_id`, `awarded_at`, `awarded_by` (null quando
 automático), `task_completion_id` null, `reason`.
 
 ### `audit_log`
-`id`, `organization_id`, `actor_id`, `event` (`contact_viewed`, `role_granted`,
+`id`, `actor_id`, `event` (`contact_viewed`, `role_granted`,
 `role_revoked`, `export`, `badge_granted`, `account_deleted`), `target_id`, `created_at`.
 **Nunca contém dados pessoais em claro.** Só os gestores leem, e só dentro do seu escopo.
 
