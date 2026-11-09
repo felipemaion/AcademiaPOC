@@ -4,7 +4,7 @@ Plataforma para organizar **turmas** que discutem, propõem e realizam ações n
 cumprindo **missões** gamificadas: doar sangue, limpar uma praça, escrever e protocolar um
 projeto de lei, discursar na câmara… Cada etapa validada vira um **feito**, rende **pontos** e
 pode render **badges**. **Monitores e gestores** identificam as habilidades dos alunos, publicam
-missões e validam as entregas. Primeira instância: a Academia (Valete/MBL). O acesso é hierárquico: o monitor vê sua
+missões e validam as entregas. Primeira instância: a Academia. O acesso é hierárquico: o monitor vê sua
 turma/equipe, o gestor estadual vê seu estado e o gestor nacional vê tudo. Os dados pessoais
 são guardados **cifrados**.
 

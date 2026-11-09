@@ -36,7 +36,7 @@ apenas aponta para cá. **Em caso de conflito, este arquivo vence.**
 | R14 | **O navegador não consulta direto as tabelas com dado pessoal.** Ele passa pelo servidor, que usa o JWT do usuário (a RLS continua valendo). |
 | R15 | **Toda decisão de acesso usa as funções SQL `app.can_*`** (ADR 0002). Não reimplementar a regra de papel ou escopo no front. Esconder botão é conforto, não segurança. |
 | R16 | **Todo PR que toca permissão atualiza `supabase/tests/permissions_matrix.test.sql`**, com pelo menos um caso "fora do escopo → negado". |
-| R17 | **Código genérico** (ADR 0005): nomes como `unit`, `member`, `task`, `badge`. Nunca "academia", "turma" ou "mbl" no código; textos da interface vêm de `config/`. |
+| R17 | **Código genérico** (ADR 0005): nomes como `unit`, `member`, `task`, `badge`. Nunca nomes de instância (ex.: "academia", "turma") fixos no código; textos da interface vêm de `config/`. |
 | R18 | Arquivos críticos (`supabase/`, `src/server/crypto/`, `src/server/auth/`, `.github/`, `AGENTS.md`) só entram com **aprovação do code owner**. |
 | R19 | **Custo zero.** Proibido adicionar serviço, API, plano ou dependência que gere cobrança (SMS, WhatsApp API, IA paga, upgrade de plano, add-on do marketplace). Só planos gratuitos, e só com ADR aprovado pelo gestor. Na dúvida sobre custo, pergunte na issue. |
 
