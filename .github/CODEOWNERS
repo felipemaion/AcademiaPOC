@@ -4,3 +4,6 @@
 /.github/              @felipemaion
 /AGENTS.md             @felipemaion
 /docs/MODELO_DADOS.md  @felipemaion
+/src/server/crypto/    @felipemaion
+/src/server/auth/      @felipemaion
+/docs/adr/             @felipemaion

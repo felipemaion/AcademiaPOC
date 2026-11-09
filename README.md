@@ -1,8 +1,12 @@
 # AcademiaPOC
 
-Plataforma piloto para **organizar os alunos da Academia**: cadastro mínimo, mapa de
-habilidades por região, formação de equipes (incubadoras), quadro de ações por equipe e
-medalhas virtuais por atividade concluída.
+Plataforma piloto da Academia (Valete/MBL) para que **monitores e gestores** identifiquem as
+habilidades dos alunos, criem tarefas, acompanhem os **feitos** (tarefas concluídas e
+validadas) e concedam **badges** (gamificação). O acesso é hierárquico: o monitor vê sua
+turma/equipe, o gestor estadual vê seu estado e o gestor nacional vê tudo. Os dados pessoais
+são guardados **cifrados**.
+
+Desenvolvida pelos próprios alunos de TI da Academia.
 
 - **Escopo inicial:** Região Metropolitana de São Paulo, 50 a 2.000 pessoas.
 - **Expansão prevista:** Estado de SP, depois o Brasil.
@@ -24,7 +28,7 @@ medalhas virtuais por atividade concluída.
 | [`docs/MODELO_DADOS.md`](docs/MODELO_DADOS.md) | Entidades e lista fechada de campos permitidos |
 | [`docs/LGPD_E_SEGURANCA.md`](docs/LGPD_E_SEGURANCA.md) | Minimização de dados, ameaças e controles |
 | [`docs/PERGUNTAS_STAKEHOLDER.md`](docs/PERGUNTAS_STAKEHOLDER.md) | Perguntas em aberto para a reunião |
-| [`docs/adr/`](docs/adr/) | Decisões de arquitetura registradas |
+| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · 0004 multi-organização |
 | [`SECURITY.md`](SECURITY.md) | Como reportar uma vulnerabilidade |
 
 ## Onde está cada coisa

@@ -10,4 +10,11 @@ if grep -rniE "$PATTERN" "$DIR" --include='*.sql'; then
   echo "Para adicionar um campo novo, abra um ADR e peça aprovação."
   exit 1
 fi
+# Dados pessoais permitidos só podem existir cifrados (colunas *_enc) — ADR 0003.
+PLAIN='\b(display_name|full_name|name_plain|whatsapp|phone|telefone|celular|social_links|email)\b[[:space:]]+(text|varchar|character|jsonb|json|citext)'
+if grep -rniE "$PLAIN" "$DIR" --include='*.sql'; then
+  echo ""
+  echo "ERRO: dado pessoal em texto puro. Use a coluna cifrada <campo>_enc (ADR 0003)."
+  exit 1
+fi
 echo "OK: nenhum campo proibido."
