@@ -10,8 +10,8 @@
 - **Quem usa:** os **monitores** e **gestores** da Academia, para identificar habilidades,
   criar tarefas, acompanhar os **feitos** (tarefas concluídas e validadas) e dar **badges**.
   Os alunos se cadastram e executam as tarefas.
-- **Futuro:** a mesma plataforma poderá gerir equipes de **campanhas eleitorais**, como
-  **instância separada** do mesmo código, que funciona como framework (ADR 0005).
+- **Futuro:** o mesmo código poderá servir a outros usos (ex.: organizar times de voluntários),
+  cada um como **instância separada** (ADR 0005).
 - **Segurança definida:** dados pessoais cifrados (ADR 0003) e acesso hierárquico por escopo
   (ADR 0002): monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo.
 
@@ -81,7 +81,8 @@ dados [?].
 
 **Coordenação (M2)**
 - RF07: Como coordenador, filtro alunos por habilidade, município e bairro.
-- RF08: Como coordenador, vejo a contagem de alunos por região (tabela; mapa é opcional).
+- RF08: Como coordenador, vejo um **mapa de calor** dos alunos por município/distrito (agregado,
+  sem localização precisa; regiões com menos de 5 pessoas aparecem como "< 5").
 - RF09: Como administrador, gerencio o catálogo de habilidades e os papéis.
 
 **Equipes (M3)**

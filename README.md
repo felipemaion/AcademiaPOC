@@ -25,7 +25,7 @@ Ele leva você do zero ao projeto rodando (Docker ou Codespaces) e ao primeiro P
 Como a equipe trabalha: [`docs/GESTAO_EQUIPE.md`](docs/GESTAO_EQUIPE.md).
 
 > O código é um **framework reutilizável** (ADR 0005): a Academia é a primeira instância.
-> Outros usos (campanhas, times de TI) serão deploys separados do mesmo código.
+> Outros usos (ex.: organizar times de voluntários de TI) serão deploys separados do mesmo código.
 
 ## Leia nesta ordem
 
@@ -40,6 +40,11 @@ Como a equipe trabalha: [`docs/GESTAO_EQUIPE.md`](docs/GESTAO_EQUIPE.md).
 | [`docs/PERGUNTAS_STAKEHOLDER.md`](docs/PERGUNTAS_STAKEHOLDER.md) | Perguntas em aberto para a reunião |
 | [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · ~~0004~~ · **0005 framework e hierarquia genérica** · **0006 missões, pontos e identidade das turmas** |
 | [`SECURITY.md`](SECURITY.md) | Como reportar uma vulnerabilidade |
+
+## Licença
+
+[AGPL-3.0](LICENSE): quem modificar o código e oferecê-lo como serviço precisa publicar as
+mudanças sob a mesma licença.
 
 ## Onde está cada coisa
 

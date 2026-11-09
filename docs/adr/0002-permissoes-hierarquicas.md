@@ -48,12 +48,12 @@ implicitamente; não há linha para isso.
 
 ### Matriz de acesso
 
-| Papel | Escopo | Vê perfis (nome, habilidades, região) | Vê contato (WhatsApp, redes) | Cria e atribui tarefas | Valida feitos | Concede badges | Atribui papéis |
+| Papel | Escopo | Vê perfis (nome, habilidades, região) | Vê contato (WhatsApp, redes) | Cria missões | Valida feitos | Concede badges | Atribui papéis |
 |---|---|---|---|---|---|---|---|
-| Aluno | si mesmo | colegas de equipe | colegas de equipe [?] | — | — | — | — |
-| Monitor | turmas e equipes atribuídas | alunos do escopo | do escopo, **auditado** | no escopo | no escopo | do catálogo, no escopo | — |
+| Aluno | si mesmo | colegas da turma (nome, habilidades) | **não** (o monitor cria o grupo de WhatsApp da turma) | — | — | — | — |
+| Monitor | turmas e equipes atribuídas | alunos do escopo | do escopo, **auditado** | no escopo | no escopo | cria e concede, no escopo | — |
 | Gestor estadual | sua UF | todos da UF | da UF, **auditado** | na UF | na UF | na UF | monitores da UF |
-| Gestor nacional | tudo | tudo | tudo, **auditado** | tudo | tudo | tudo + catálogo | gestores estaduais e monitores |
+| Gestor nacional | tudo | tudo | tudo, **auditado** | tudo | tudo | cria e concede, tudo | gestores estaduais e monitores |
 | Admin técnico | sistema | **nenhum** | **nenhum** | — | — | — | só cria o 1º gestor nacional |
 
 ### Regras
@@ -81,7 +81,7 @@ implicitamente; não há linha para isso.
 
 ## Consequências
 
-- (+) O mesmo modelo serve para piloto, estado e país, e futuramente para campanhas.
+- (+) O mesmo modelo serve para piloto, estado e país, e futuramente para outros usos.
 - (−) RLS com funções exige testes cuidadosos: por isso a matriz é obrigatória e os arquivos
   de `supabase/` exigem revisão do code owner.
 - (−) Desempenho: as funções precisam de índices em `role_assignments` e nas tabelas de

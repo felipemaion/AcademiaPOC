@@ -9,9 +9,23 @@
 | Papéis e escopo (#5, #40) | Monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo | ADR 0002 |
 | Proteção dos dados (#43) | Dados pessoais cifrados no banco; hash para unicidade | ADR 0003 |
 | "Feitos" (#14) | Tarefas concluídas e validadas, não texto livre | MODELO_DADOS |
-| Uso futuro | Campanhas eleitorais e times de TI, como instâncias separadas do mesmo framework | ADR 0005 |
+| Uso futuro | Outros usos como instâncias separadas do mesmo framework | ADR 0005 |
 | Repositório | Público (permite proteger a `main` no plano gratuito) | — |
 | O que é turma (#46) | Grupo com identidade (nome, bandeira, logo) que discute, propõe e realiza ações na sua região | ADR 0006 |
+| Turma (#46, #57) | Turma = equipe. Grupo que se comunica, propõe e realiza. **Um aluno por turma**, mas pode ser movido | ADR 0006 §2 |
+| WhatsApp (#6, #47) | Monitor vê ao clicar, com registro. **Colegas não veem**: o monitor cria o grupo de WhatsApp da turma; o oficial fica no portal | ADR 0002 |
+| Nível entre estado e turma (#48) | Existe (região), mas é **opcional** | ADR 0005 |
+| Mapa | Mapa de calor dos cadastrados por região | PLANEJAMENTO RF08 |
+| Quem cria missões (#26, #49, #54) | Nacional ou monitor; a turma sugere. A missão mostra a origem: **Nacional** ou **Regional** | ADR 0006 §3 e §5 |
+| Missão individual ou em equipe (#27, #49) | Os dois tipos | ADR 0006 §3 |
+| Evidência (#28, #50) | Quem cria a missão define se exige evidência e de que tipo | ADR 0006 §3 |
+| Badges (#32, #51) | Criados pela nacional ou pelo monitor | ADR 0006 §8 |
+| Painéis (#52) | Feitos por turma, alunos sem feito há 30 dias, ranking de turmas; evolui com o uso | issue do painel |
+| Pontos (#55) | Pontuação de turma **e** individual | ADR 0006 §4 |
+| Placar (#33, #56) | Sim, para competição entre turmas | ADR 0006 §6 |
+| Missões de saúde (#58) | O monitor decide como comprovar (sem upload de comprovante) | ADR 0006 §7 |
+| Identidade (#59) | A turma cria logo, bandeira e redes sociais próprias; o nome é definido pelo monitor ou pela nacional [?] | ADR 0006 §2 |
+| Licença (#61) | AGPL-3.0 | LICENSE |
 | Orçamento (#36, #60) | **Custo zero.** Só planos gratuitos; qualquer custo exige aprovação explícita do gestor | ADR 0001, AGENTS R19 |
 | Ações e gamificação (#25, #31) | Missões com etapas e pontos (ex.: lei escrita + bônus por protocolar), validadas, com badges | ADR 0006 |
 
@@ -44,9 +58,7 @@
     isso, ou o piloto é custo zero?
 61. **Licença do código:** o repositório é público e ainda não tem licença. Sugestão:
     AGPL-3.0 (quem reusar e oferecer como serviço publica as mudanças) ou MIT (uso livre).
-53. **Jurídico — campanhas:** usar a plataforma numa campanha exige organização, termo e
-    cadastro separados. A base de alunos não pode ser repassada (Lei 9.504, art. 57-E;
-    LGPD art. 11). Confirmar com o jurídico.
+53. *(removida)*
 
 As perguntas estão em ordem de prioridade. As marcadas com ⛔ **bloqueiam o desenvolvimento**:
 sem resposta, o M1 não começa. Ao lado de cada uma está a **sugestão padrão**, que vale caso
@@ -94,7 +106,7 @@ ele não tenha preferência.
     Quem define a lista inicial?
 13. **Nível de habilidade** importa (básico/intermediário/avançado) ou basta ter ou não ter?
 14. **"Feitos":** o que significa exatamente? Conquistas fora da plataforma (cargo, projeto,
-    campanha) contadas pelo próprio aluno em texto livre? Ou só o que ele fez dentro da
+    mobilização) contadas pelo próprio aluno em texto livre? Ou só o que ele fez dentro da
     plataforma (que já viraria medalha)?
 15. **Redes sociais:** quais? (Instagram, X, LinkedIn, TikTok, YouTube.) Quantos links no
     máximo? Elas ficam visíveis para quem?
@@ -130,7 +142,7 @@ ele não tenha preferência.
     concluída**. Sugestão: construir um quadro **simples** (A fazer / Fazendo / Feito), sem
     tentar replicar o Trello.
 26. **Quem cria as ações?** Coordenação central (a mesma ação para todas as equipes, como uma
-    campanha), o líder da equipe, ou ambos?
+    mobilização), o líder da equipe, ou ambos?
 27. **Uma ação é da equipe toda ou de pessoas específicas?**
 28. **Como se comprova que uma ação foi feita?** Basta marcar, ou precisa de evidência (link,
     foto) e aprovação de líder ou coordenador? *Atenção: fotos aumentam custo de
@@ -142,7 +154,7 @@ ele não tenha preferência.
 ## F. Medalhas
 
 31. ⛔ **Quais as regras das medalhas?** Exemplos: "1ª ação concluída", "10 ações", "ação de
-    campanha X", "membro fundador de incubadora". Medalha por ação individual, por conjunto de
+    mobilização X", "membro fundador de incubadora". Medalha por ação individual, por conjunto de
     ações, ou ambas?
 32. **Medalhas são automáticas** (o sistema concede ao cumprir a regra) **ou concedidas
     manualmente** por coordenador?
