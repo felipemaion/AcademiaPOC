@@ -35,6 +35,13 @@ tarefa M0 de hospedagem.**
 | Trello/Notion para as ações | Grátis, mas a medalha depende de saber quem concluiu o quê; integrar custaria mais que um quadro simples |
 | Backend próprio (Django/Express) + VPS | Mais controle, mas exige servidor gerenciado por voluntários: mais superfície de ataque e mais custo |
 
+## Requisito de custo (decidido em 2026-11-09)
+
+**Custo zero é o foco.** A escolha de hospedagem, banco e autenticação precisa caber nos
+planos gratuitos, inclusive nos termos de uso (ex.: o Vercel Hobby é não comercial, o que
+favorece a Cloudflare). Notificações por SMS ou WhatsApp, IA paga e upgrades ficam fora.
+Um custo mínimo (ex.: domínio próprio) só entra com aprovação explícita do gestor.
+
 ## Consequências
 
 - (+) Tudo roda localmente com `supabase start`; os voluntários nunca tocam produção.

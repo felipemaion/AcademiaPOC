@@ -103,7 +103,7 @@ dados [?].
 
 | Item | Requisito |
 |---|---|
-| Custo | Planos gratuitos; alertar antes de atingir 80% de qualquer limite |
+| Custo | **Custo zero (requisito).** Só planos gratuitos; alertar antes de atingir 80% de qualquer limite; nenhum serviço pago sem aprovação do gestor (AGENTS R19) |
 | Escala | Até 2.000 usuários no piloto e 50.000 na expansão, sem reescrever |
 | Dispositivo | Mobile-first; funcionar bem em Android de entrada e 4G |
 | Acessibilidade | WCAG 2.1 AA nos fluxos de cadastro |
