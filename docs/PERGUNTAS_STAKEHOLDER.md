@@ -11,6 +11,8 @@
 | "Feitos" (#14) | Tarefas concluídas e validadas, não texto livre | MODELO_DADOS |
 | Uso futuro | Campanhas eleitorais e times de TI, como instâncias separadas do mesmo framework | ADR 0005 |
 | Repositório | Público (permite proteger a `main` no plano gratuito) | — |
+| O que é turma (#46) | Grupo com identidade (nome, bandeira, logo) que discute, propõe e realiza ações na sua região | ADR 0006 |
+| Ações e gamificação (#25, #31) | Missões com etapas e pontos (ex.: lei escrita + bônus por protocolar), validadas, com badges | ADR 0006 |
 
 ## Novas perguntas (após as definições)
 
@@ -26,6 +28,21 @@
 51. **Badges:** só o nacional cria badges, ou o estadual também? Monitor concede badge manual?
 52. **Acompanhamento:** que painel cada nível quer ver? (Ex.: feitos por turma, alunos sem
     tarefa há 30 dias, ranking de equipes.)
+54. ⛔ **Quem cria missões?** Só o nacional, ou também o estadual e o monitor? Quem publica
+    as propostas das turmas?
+55. ⛔ **Pontos:** só a turma pontua, ou cada participante também (para badges
+    individuais)? Há tabela de pontos de referência (ex.: protocolar = 30)?
+56. **Placar:** entre turmas de que recorte (cidade, estado, nacional)? Por mês, semestre ou
+    acumulado? Há prêmio fora da plataforma?
+57. **Uma pessoa pode estar em mais de uma turma?** E uma turma pode ter subequipes?
+58. **Doação de sangue e missões de saúde:** basta autodeclaração validada pelo monitor?
+    *Guardar comprovante é dado de saúde (sensível); a sugestão é não guardar.*
+59. **Logo e bandeira:** cores + emblema de um catálogo bastam no piloto, ou o upload de
+    imagem é essencial desde o início?
+60. **Orçamento:** o protótipo original (Vguedess/Complexo42) menciona um limite de **R$ 100/mês**. O stakeholder definiu
+    isso, ou o piloto é custo zero?
+61. **Licença do código:** o repositório é público e ainda não tem licença. Sugestão:
+    AGPL-3.0 (quem reusar e oferecer como serviço publica as mudanças) ou MIT (uso livre).
 53. **Jurídico — campanhas:** usar a plataforma numa campanha exige organização, termo e
     cadastro separados. A base de alunos não pode ser repassada (Lei 9.504, art. 57-E;
     LGPD art. 11). Confirmar com o jurídico.

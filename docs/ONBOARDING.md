@@ -48,8 +48,8 @@ Pré-requisitos:
 | Editor + sua IA | desenvolver | VS Code, Cursor, Claude Code… |
 
 ```bash
-git clone git@github.com:felipemaion/AcademiaPOC.git
-cd AcademiaPOC
+git clone git@github.com:felipemaion/Complexo42.git
+cd Complexo42
 npm run setup     # cria .env.local com chaves de TESTE, instala dependências,
                   # sobe o Supabase no Docker, aplica migrations e o seed fictício
 npm run dev       # abre http://localhost:3000

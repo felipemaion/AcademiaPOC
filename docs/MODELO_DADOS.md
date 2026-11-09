@@ -10,14 +10,15 @@
 | Dado | Coluna | Proteção | Quem vê (ADR 0002) |
 |---|---|---|---|
 | Nome | `profiles.display_name_enc` | AES-256-GCM | Escopo do monitor/gestor; colegas de equipe |
-| WhatsApp | `profiles.whatsapp_enc` + `whatsapp_hmac` | AES-256-GCM + HMAC | Escopo, ao clicar em "ver contato" (auditado); colegas de equipe [?] |
-| Redes sociais (máx. 5 URLs https) | `profiles.social_links_enc` | AES-256-GCM | Escopo (auditado) |
+| WhatsApp | `profile_contacts.whatsapp_enc` + `whatsapp_hmac` | AES-256-GCM + HMAC | Escopo, ao clicar em "ver contato" (auditado); colegas de equipe [?] |
+| Redes sociais (máx. 5 URLs https) | `profile_contacts.social_links_enc` | AES-256-GCM | Escopo (auditado) |
 | E-mail de login | `auth.users` (Supabase) | Texto puro, gerenciado pelo Supabase | **Ninguém**: nunca exibido nem exportado |
 
 Ficam **em texto puro**, por não identificarem sozinhos: município, UF, turma, equipe,
-habilidades, tarefas e badges.
+habilidades, missões, pontos e badges.
 
-> **"Feitos" = tarefas concluídas e validadas.** Não existe campo de texto livre para isso.
+> **"Feitos" = entregas de missão validadas** (ADR 0006). Não existe campo de texto livre
+> para isso.
 
 ## Proibidos
 
@@ -31,11 +32,15 @@ e **qualquer coluna `display_name`, `whatsapp` ou `social_links` sem o sufixo `_
 unit_types ─< units (árvore: nacional > estado > turma > equipe, via ltree)
                 │
 profiles ───────┼─< unit_members >── units
-                ├─< role_assignments >── units   (papel vale na unidade e abaixo dela)
-                ├─< profile_skills >── skills
-                ├─< task_assignees >── tasks ──> units (tarefa pertence a uma unidade)
-                ├─< task_completions             (o "feito": entrega + validação)
-                └─< profile_badges >── badges
+   │            ├─< role_assignments >── units   (papel vale na unidade e abaixo dela)
+   │            ├─< profile_skills >── skills
+   │            ├─< mission_run_members >── mission_runs
+   │            └─< profile_badges >── badges
+   └── profile_contacts (1:1, RLS mais restrita: WhatsApp e redes)
+
+missions ─< mission_steps
+missions ─< mission_runs (uma turma assume a missão) ─< step_submissions (entregas)
+step_submissions (approved = "feito") ──> points_ledger (só INSERT)
 audit_log
 ```
 
@@ -56,9 +61,6 @@ tabelas têm **RLS habilitada**.
 |---|---|---|
 | `id` | uuid PK | = `auth.users.id` |
 | `display_name_enc` | text | 🔒 `v1.iv.ct` (ADR 0003 §3) |
-| `whatsapp_enc` | text | 🔒 |
-| `whatsapp_hmac` | text | único |
-| `social_links_enc` | text null | 🔒 JSON cifrado |
 | `municipality_code` | int FK | IBGE |
 | `state_code` | char(2) | derivado do município (trigger); no cadastro, o aluno entra na unidade do seu estado |
 | `district` | text null | distrito da capital [?] |
@@ -68,13 +70,22 @@ tabelas têm **RLS habilitada**.
 
 O papel **não** fica no perfil: fica em `role_assignments`.
 
+### `profile_contacts` (1:1 com `profiles`)
+`profile_id` PK, `whatsapp_enc` 🔒, `whatsapp_hmac` (único), `social_links_enc` 🔒 null,
+`updated_at`.
+Fica **separada** para que listagens de perfis nunca tragam contato por engano. A RLS é mais
+restrita: o próprio titular e `app.can_view_contact()`. Ideia adaptada do protótipo original
+Vguedess/Complexo42 (`member_contacts`).
+
 ### `municipalities` (referência pública, só leitura)
 `code` (IBGE), `name`, `state_code`, `metro_region`.
 
 ### `unit_types`, `units` e `unit_members` (ADR 0005)
 `unit_types`: `id`, `key`, `label`, `level` (rótulos configuráveis por instância).
 `units`: `id`, `type_id`, `parent_id`, `name`, `path` (ltree, índice GiST), `state_code`
-null, `starts_on`/`ends_on` null, `status`.
+null, `municipality_code` null (região), `motto` null (≤ 80), `colors` (2 a 3 hex: a
+"bandeira"), `emblem` (ícone do catálogo da instância), `starts_on`/`ends_on` null,
+`status`. **Sem upload de logo no POC** (ADR 0006 §2).
 `unit_members`: `unit_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`.
 
 ### `role_assignments` (ADR 0002 + 0005)
@@ -85,24 +96,35 @@ null, `starts_on`/`ends_on` null, `status`.
 `skills`: `id`, `name`, `category`, `active`.
 `profile_skills`: `profile_id`, `skill_id`, `level` [?].
 
-### `tasks`, `task_assignees` e `task_completions`
-`tasks`: `id`, `unit_id` (vale para a unidade e as de baixo), `title`, `description`,
-`due_date`, `badge_id` null
-(badge concedido ao concluir), `created_by`, `status`.
-`task_assignees`: `task_id`, `profile_id` (vazio = vale para todos do escopo).
-`task_completions`: `id`, `task_id`, `profile_id`, `evidence_url` null (https),
-`submitted_at`, `status` (`submitted`, `approved`, `rejected`), `reviewed_by`,
-`reviewed_at`, `review_note`.
+### Missões, entregas e pontos (ADR 0006)
+`missions`: `id`, `title`, `description`, `category`, `scope_unit_id`, `status`
+(`proposed`, `published`, `archived`), `repeatable`, `cooldown_days`, `badge_id` null,
+`proposed_by_unit_id` null, `created_by`, `created_at`.
+`mission_steps`: `id`, `mission_id`, `position`, `title`, `description`, `points` (> 0),
+`evidence_type` (`none`, `link`, `protocol_number`, `text`), `requires_previous`.
+`mission_runs`: `id`, `mission_id`, `unit_id`, `status` (`active`, `completed`,
+`abandoned`), `started_at`, `completed_at`.
+`mission_run_members`: `run_id`, `profile_id`.
+`step_submissions`: `id`, `run_id`, `step_id`, `submitted_by`, `evidence_url` null (https),
+`evidence_text` null (≤ 500), `status` (`submitted`, `approved`, `rejected`),
+`reviewed_by`, `reviewed_at`, `review_note`. Único por (`run_id`, `step_id`) aprovado.
+`points_ledger`: `id`, `unit_id`, `profile_id` null, `submission_id`, `points`, `reason`,
+`created_by`, `created_at`. **Só INSERT**: correção é lançamento negativo.
+
+> Missões de saúde (doação de sangue): **nunca guardar comprovante**; dado de saúde é
+> sensível (ADR 0006 §7).
 
 ### `badges` e `profile_badges`
 `badges`: `id`, `name`, `description`, `icon`, `rule_type` (`manual`,
-`task`, `tasks_count`), `rule_params` jsonb.
+`mission_completed`, `points_threshold`), `rule_params` jsonb.
 `profile_badges`: `profile_id`, `badge_id`, `awarded_at`, `awarded_by` (null quando
-automático), `task_completion_id` null, `reason`.
+automático), `submission_id` null, `reason`, `revoked_at` null, `revoked_by` null,
+`revoked_reason` null.
 
 ### `audit_log`
 `id`, `actor_id`, `event` (`contact_viewed`, `role_granted`,
-`role_revoked`, `export`, `badge_granted`, `account_deleted`), `target_id`, `created_at`.
+`role_revoked`, `export`, `badge_granted`, `badge_revoked`, `submission_approved`,
+`submission_rejected`, `points_adjusted`, `account_deleted`), `target_id`, `created_at`.
 **Nunca contém dados pessoais em claro.** Só os gestores leem, e só dentro do seu escopo.
 
 ## Acesso

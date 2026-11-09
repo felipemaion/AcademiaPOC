@@ -1,8 +1,10 @@
-# AcademiaPOC
+# Complexo42
 
-Plataforma piloto da Academia (Valete/MBL) para que **monitores e gestores** identifiquem as
-habilidades dos alunos, criem tarefas, acompanhem os **feitos** (tarefas concluídas e
-validadas) e concedam **badges** (gamificação). O acesso é hierárquico: o monitor vê sua
+Plataforma para organizar **turmas** que discutem, propõem e realizam ações na sua região,
+cumprindo **missões** gamificadas: doar sangue, limpar uma praça, escrever e protocolar um
+projeto de lei, discursar na câmara… Cada etapa validada vira um **feito**, rende **pontos** e
+pode render **badges**. **Monitores e gestores** identificam as habilidades dos alunos, publicam
+missões e validam as entregas. Primeira instância: a Academia (Valete/MBL). O acesso é hierárquico: o monitor vê sua
 turma/equipe, o gestor estadual vê seu estado e o gestor nacional vê tudo. Os dados pessoais
 são guardados **cifrados**.
 
@@ -36,7 +38,7 @@ Como a equipe trabalha: [`docs/GESTAO_EQUIPE.md`](docs/GESTAO_EQUIPE.md).
 | [`docs/MODELO_DADOS.md`](docs/MODELO_DADOS.md) | Entidades e lista fechada de campos permitidos |
 | [`docs/LGPD_E_SEGURANCA.md`](docs/LGPD_E_SEGURANCA.md) | Minimização de dados, ameaças e controles |
 | [`docs/PERGUNTAS_STAKEHOLDER.md`](docs/PERGUNTAS_STAKEHOLDER.md) | Perguntas em aberto para a reunião |
-| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · ~~0004~~ · **0005 framework e hierarquia genérica** |
+| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · ~~0004~~ · **0005 framework e hierarquia genérica** · **0006 missões, pontos e identidade das turmas** |
 | [`SECURITY.md`](SECURITY.md) | Como reportar uma vulnerabilidade |
 
 ## Onde está cada coisa

@@ -78,7 +78,7 @@ O objetivo é **tirar o gestor do caminho** de tudo que não for crítico.
 ## 8. Entrada e saída de pessoas
 
 **Entrada** (gestor):
-1. `gh api -X PUT repos/felipemaion/AcademiaPOC/collaborators/<usuario> -f permission=push`
+1. `gh api -X PUT repos/felipemaion/Complexo42/collaborators/<usuario> -f permission=push`
 2. Adicionar ao grupo; designar o padrinho.
 3. Apontar `docs/ONBOARDING.md` e uma `bom-primeiro-issue`.
 

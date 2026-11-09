@@ -38,15 +38,22 @@ executa com **medalhas virtuais**. Tudo isso com o mínimo de dados pessoais e c
    sociais e "feitos". Consentimento LGPD, edição e exclusão da própria conta.
 2. **Painel da coordenação**: lista com filtros por habilidade e região, contagem por região.
 3. **Equipes**: criar equipe, adicionar e remover membros, definir líder.
-4. **Ações**: quadro simples por equipe (A fazer / Fazendo / Feito), com conclusão aprovada.
-5. **Medalhas**: catálogo de medalhas; concessão manual e automática por regras simples.
+4. **Missões** (ADR 0006): catálogo de missões com etapas e pontos (ex.: escrever um projeto
+   de lei = 10, protocolar = +30); a turma assume a missão, envia as entregas, o monitor
+   valida, e os pontos vão para um livro-razão imutável. As turmas também podem **propor**
+   missões para a sua região.
+5. **Identidade e placar**: turma com nome, lema, cores e emblema; placar de turmas por
+   escopo e período.
+6. **Badges**: por missão concluída, por pontos ou manual; revogáveis.
 
 ### Fora do POC (por enquanto)
 - Chat interno: o WhatsApp continua sendo o canal de conversa.
 - Notificações por WhatsApp/SMS (pagas).
 - Aplicativo nativo: o POC é web responsivo, que pode virar PWA.
-- Upload de fotos e documentos.
-- Ranking público.
+- Upload de fotos, documentos e logos (fase 2; ver ADR 0006 §2 e §7).
+- Ranking público **individual** (o placar é só entre turmas).
+- Chat/salas internas (a discussão segue no WhatsApp da turma).
+- Avaliações de desempenho individuais (como as do protótipo original, Vguedess/Complexo42): dado pessoal sensível de gerir.
 - Coordenação multi-estado (fica preparada no modelo, mas não é exposta na interface).
 
 ## 4. Personas e papéis (definidos — ADR 0002)
