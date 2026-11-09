@@ -52,6 +52,30 @@ apenas aponta para cá. **Em caso de conflito, este arquivo vence.**
 - **Validação de entrada** com schema (Zod) **no servidor**, sempre. Validação no cliente é
   só conforto para o usuário.
 
+## 2.1 Estrutura do código (monólito modular)
+
+Adaptado do ADR-001 do protótipo original do Complexo42 ([Vguedess/Complexo42](https://github.com/Vguedess/Complexo42)). Um app só, separado por domínio:
+
+```
+src/
+  app/                        # rotas Next.js: só composição de telas
+  modules/<dominio>/          # profiles, units, missions, points, badges, skills…
+    index.ts                  # API pública do módulo (o que outros módulos podem importar)
+    types.ts                  # contratos
+    domain/                   # regras puras + testes (*.test.ts), sem banco nem React
+    server/                   # server actions/serviços: sessão, Zod, chamadas ao Supabase
+    components/               # React: só apresentação e eventos
+  server/crypto/              # ADR 0003 (code owner)
+  server/auth/                # sessão e helpers (code owner)
+config/instance.ts            # rótulos e identidade da instância (ADR 0005)
+supabase/migrations/          # SQL versionado (code owner)
+supabase/tests/               # pgTAP: RLS e matriz de permissões (code owner)
+```
+
+- Um módulo **só importa o `index.ts`** de outro módulo, nunca arquivos internos.
+- Componentes React **não** acessam o banco; quem acessa é `server/`.
+- Regra de negócio nova vai para `domain/`, com teste, antes de ir para a tela.
+
 ## 3. Stack (proposta — ver `docs/adr/0001-stack.md`)
 
 - Next.js (App Router) + TypeScript
