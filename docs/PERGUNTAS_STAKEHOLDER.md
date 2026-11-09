@@ -12,6 +12,7 @@
 | Uso futuro | Campanhas eleitorais e times de TI, como instâncias separadas do mesmo framework | ADR 0005 |
 | Repositório | Público (permite proteger a `main` no plano gratuito) | — |
 | O que é turma (#46) | Grupo com identidade (nome, bandeira, logo) que discute, propõe e realiza ações na sua região | ADR 0006 |
+| Orçamento (#36, #60) | **Custo zero.** Só planos gratuitos; qualquer custo exige aprovação explícita do gestor | ADR 0001, AGENTS R19 |
 | Ações e gamificação (#25, #31) | Missões com etapas e pontos (ex.: lei escrita + bônus por protocolar), validadas, com badges | ADR 0006 |
 
 ## Novas perguntas (após as definições)
@@ -39,7 +40,7 @@
     *Guardar comprovante é dado de saúde (sensível); a sugestão é não guardar.*
 59. **Logo e bandeira:** cores + emblema de um catálogo bastam no piloto, ou o upload de
     imagem é essencial desde o início?
-60. **Orçamento:** o protótipo original (Vguedess/Complexo42) menciona um limite de **R$ 100/mês**. O stakeholder definiu
+60. ~~**Orçamento:**~~ *Respondida: custo zero.* o protótipo original (Vguedess/Complexo42) menciona um limite de **R$ 100/mês**. O stakeholder definiu
     isso, ou o piloto é custo zero?
 61. **Licença do código:** o repositório é público e ainda não tem licença. Sugestão:
     AGPL-3.0 (quem reusar e oferecer como serviço publica as mudanças) ou MIT (uso livre).
