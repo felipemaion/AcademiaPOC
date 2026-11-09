@@ -1,0 +1,15 @@
+name: Bug
+description: Algo não funciona como deveria
+labels: [bug]
+body:
+  - type: textarea
+    id: passos
+    attributes: { label: Passos para reproduzir }
+    validations: { required: true }
+  - type: textarea
+    id: esperado
+    attributes: { label: Esperado vs. obtido }
+    validations: { required: true }
+  - type: markdown
+    attributes:
+      value: "⚠️ **Não cole dados pessoais reais** (nomes, telefones). Falha de segurança? Use o reporte privado (SECURITY.md)."

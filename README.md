@@ -1,0 +1,34 @@
+# AcademiaPOC
+
+Plataforma piloto para **organizar os alunos da Academia**: cadastro mínimo, mapa de
+habilidades por região, formação de equipes (incubadoras), quadro de ações por equipe e
+medalhas virtuais por atividade concluída.
+
+- **Escopo inicial:** Região Metropolitana de São Paulo, 50 a 2.000 pessoas.
+- **Expansão prevista:** Estado de SP, depois o Brasil.
+- **Restrições:** custo zero (planos gratuitos), coleta mínima de dados (LGPD) e, se
+  alguém invadir, quase nada de valor a levar.
+- **Time:** voluntários, a maioria desenvolvendo com assistentes de IA.
+
+> **Estado atual:** planejamento (Milestone M0). A stack ainda é uma *proposta* e precisa ser
+> validada na reunião com o stakeholder. Veja `docs/PERGUNTAS_STAKEHOLDER.md`.
+
+## Leia nesta ordem
+
+| Documento | Para quê |
+|---|---|
+| [`AGENTS.md`](AGENTS.md) | **Regras obrigatórias** para quem programa, humano ou IA |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Fluxo de branch, PR, testes e revisão |
+| [`docs/PLANEJAMENTO.md`](docs/PLANEJAMENTO.md) | Visão, escopo, requisitos, arquitetura, riscos |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Milestones e tarefas |
+| [`docs/MODELO_DADOS.md`](docs/MODELO_DADOS.md) | Entidades e lista fechada de campos permitidos |
+| [`docs/LGPD_E_SEGURANCA.md`](docs/LGPD_E_SEGURANCA.md) | Minimização de dados, ameaças e controles |
+| [`docs/PERGUNTAS_STAKEHOLDER.md`](docs/PERGUNTAS_STAKEHOLDER.md) | Perguntas em aberto para a reunião |
+| [`docs/adr/`](docs/adr/) | Decisões de arquitetura registradas |
+| [`SECURITY.md`](SECURITY.md) | Como reportar uma vulnerabilidade |
+
+## Onde está cada coisa
+
+- **Tarefas:** GitHub Issues (cada uma vinculada a um Milestone).
+- **Decisões:** `docs/adr/NNNN-titulo.md`.
+- **Código:** criado a partir da tarefa de scaffold do M0 (ainda não existe).

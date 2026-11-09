@@ -1,0 +1,29 @@
+name: Tarefa
+description: Uma unidade de trabalho pequena e testável
+labels: []
+body:
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: O que e por quê, em 1–3 frases.
+    validations: { required: true }
+  - type: textarea
+    id: aceite
+    attributes:
+      label: Critérios de aceite
+      description: Lista verificável. Inclua pelo menos um caso de permissão negada ou erro.
+      value: |
+        - [ ]
+        - [ ] Testes cobrindo os critérios acima
+    validations: { required: true }
+  - type: textarea
+    id: refs
+    attributes:
+      label: Referências
+      description: Documentos, issues ou ADRs relacionados.
+  - type: textarea
+    id: fora
+    attributes:
+      label: Fora do escopo
+      description: O que NÃO deve ser feito nesta tarefa.

@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  guardrails:
+    name: Guardrails (segredos e dados proibidos)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Varredura de segredos (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Campos pessoais proibidos
+        run: ./scripts/check-forbidden-fields.sh
+
+  app:
+    name: App (lint, tipos, testes, build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: detect
+        run: echo "present=$([ -f package.json ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - if: steps.detect.outputs.present == 'true'
+        uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - if: steps.detect.outputs.present == 'true'
+        run: npm ci
+      - if: steps.detect.outputs.present == 'true'
+        run: npm run check
+      - if: steps.detect.outputs.present != 'true'
+        run: echo "Sem package.json ainda (scaffold pendente no M0)."
+
+  database:
+    name: Banco (migrations + testes de RLS)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: detect
+        run: echo "present=$([ -d supabase ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - if: steps.detect.outputs.present == 'true'
+        uses: supabase/setup-cli@v1
+        with: { version: latest }
+      - if: steps.detect.outputs.present == 'true'
+        run: supabase start -x studio,imgproxy,inbucket,edge-runtime,logflare,vector
+      - if: steps.detect.outputs.present == 'true'
+        run: supabase test db
+      - if: steps.detect.outputs.present != 'true'
+        run: echo "Sem pasta supabase/ ainda (pendente no M0)."
