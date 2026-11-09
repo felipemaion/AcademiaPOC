@@ -29,7 +29,7 @@ e **qualquer coluna `display_name`, `whatsapp` ou `social_links` sem o sufixo `_
 ## Entidades
 
 ```
-unit_types ─< units (árvore: nacional > estado > turma > equipe, via ltree)
+unit_types ─< units (árvore: nacional > estado > [região] > turma, via ltree)
                 │
 profiles ───────┼─< unit_members >── units
    │            ├─< role_assignments >── units   (papel vale na unidade e abaixo dela)
@@ -53,8 +53,12 @@ tabelas têm **RLS habilitada**.
 |---|---|---|
 | `br` | Nacional | gestor nacional |
 | `br.sp` | Estado | gestor de SP (+ nacional) |
-| `br.sp.turma_2026_1` | Turma | monitor da turma (+ SP + nacional) |
-| `br.sp.turma_2026_1.equipe_azul` | Equipe | monitor da equipe (+ todos acima) |
+| `br.sp.zona_leste` | Região (opcional) | coordenador da região (+ SP + nacional) |
+| `br.sp.zona_leste.turma_azul` | Turma | monitor da turma (+ todos acima) |
+| `br.sp.turma_verde` | Turma sem região | monitor da turma (+ SP + nacional) |
+
+**Turma = equipe.** Cada aluno está em **uma** turma (constraint), e mudar de turma gera um
+evento `member_moved` no audit_log.
 
 ### `profiles`
 | Coluna | Tipo | Observação |
@@ -84,8 +88,9 @@ Vguedess/Complexo42 (`member_contacts`).
 `unit_types`: `id`, `key`, `label`, `level` (rótulos configuráveis por instância).
 `units`: `id`, `type_id`, `parent_id`, `name`, `path` (ltree, índice GiST), `state_code`
 null, `municipality_code` null (região), `motto` null (≤ 80), `colors` (2 a 3 hex: a
-"bandeira"), `emblem` (ícone do catálogo da instância), `starts_on`/`ends_on` null,
-`status`. **Sem upload de logo no POC** (ADR 0006 §2).
+"bandeira"), `logo_path` null + `logo_status` (`pending`, `approved`, `rejected`),
+`public_links` (redes **da turma**, até 5 URLs https), `starts_on`/`ends_on` null,
+`status`. Logo só PNG/JPEG/WebP ≤ 512 KB, **nunca SVG** (ADR 0006 §2).
 `unit_members`: `unit_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`.
 
 ### `role_assignments` (ADR 0002 + 0005)
@@ -98,11 +103,12 @@ null, `municipality_code` null (região), `motto` null (≤ 80), `colors` (2 a 3
 
 ### Missões, entregas e pontos (ADR 0006)
 `missions`: `id`, `title`, `description`, `category`, `scope_unit_id`, `status`
-(`proposed`, `published`, `archived`), `repeatable`, `cooldown_days`, `badge_id` null,
+(`proposed`, `published`, `archived`), `origin` (`national`, `regional`, por trigger),
+`mode` (`individual`, `team`), `repeatable`, `cooldown_days`, `badge_id` null,
 `proposed_by_unit_id` null, `created_by`, `created_at`.
 `mission_steps`: `id`, `mission_id`, `position`, `title`, `description`, `points` (> 0),
 `evidence_type` (`none`, `link`, `protocol_number`, `text`), `requires_previous`.
-`mission_runs`: `id`, `mission_id`, `unit_id`, `status` (`active`, `completed`,
+`mission_runs`: `id`, `mission_id`, `unit_id`, `profile_id` null (missão individual), `status` (`active`, `completed`,
 `abandoned`), `started_at`, `completed_at`.
 `mission_run_members`: `run_id`, `profile_id`.
 `step_submissions`: `id`, `run_id`, `step_id`, `submitted_by`, `evidence_url` null (https),
@@ -111,11 +117,12 @@ null, `municipality_code` null (região), `motto` null (≤ 80), `colors` (2 a 3
 `points_ledger`: `id`, `unit_id`, `profile_id` null, `submission_id`, `points`, `reason`,
 `created_by`, `created_at`. **Só INSERT**: correção é lançamento negativo.
 
-> Missões de saúde (doação de sangue): **nunca guardar comprovante**; dado de saúde é
-> sensível (ADR 0006 §7).
+> Missões de saúde (doação de sangue): o monitor decide como comprovar, mas **não há upload
+> de comprovante**; dado de saúde é sensível (ADR 0006 §7).
 
 ### `badges` e `profile_badges`
-`badges`: `id`, `name`, `description`, `icon`, `rule_type` (`manual`,
+`badges`: `id`, `scope_unit_id` (nacional ou escopo do monitor), `created_by`, `name`,
+`description`, `icon`, `rule_type` (`manual`,
 `mission_completed`, `points_threshold`), `rule_params` jsonb.
 `profile_badges`: `profile_id`, `badge_id`, `awarded_at`, `awarded_by` (null quando
 automático), `submission_id` null, `reason`, `revoked_at` null, `revoked_by` null,
@@ -123,7 +130,7 @@ automático), `submission_id` null, `reason`, `revoked_at` null, `revoked_by` nu
 
 ### `audit_log`
 `id`, `actor_id`, `event` (`contact_viewed`, `role_granted`,
-`role_revoked`, `export`, `badge_granted`, `badge_revoked`, `submission_approved`,
+`role_revoked`, `member_moved`, `logo_approved`, `export`, `badge_granted`, `badge_revoked`, `submission_approved`,
 `submission_rejected`, `points_adjusted`, `account_deleted`), `target_id`, `created_at`.
 **Nunca contém dados pessoais em claro.** Só os gestores leem, e só dentro do seu escopo.
 

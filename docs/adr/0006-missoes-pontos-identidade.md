@@ -1,7 +1,7 @@
 # ADR 0006 — Missões, pontos e identidade das turmas
 
-- **Status:** Aceito (definido pelo gestor do projeto em 2026-11-09). Itens marcados com [?]
-  dependem do stakeholder.
+- **Status:** Aceito (definido pelo gestor do projeto em 2026-11-09; atualizado com as respostas do
+  stakeholder no mesmo dia). Itens marcados com [?] ainda dependem dele.
 - **Data:** 2026-11-09
 - **Substitui:** o modelo de "tarefas/ações" (Kanban) do `MODELO_DADOS.md`.
 
@@ -36,27 +36,38 @@ Tudo isso deve ser **gamificado e organizado**.
 | Badge | `badge` | Conquista: por missão concluída, por pontos ou manual |
 | Proposta | `mission` com status `proposed` | A turma propõe uma missão nova para a sua região |
 
-### 2. Identidade da turma, sem upload de imagem no POC
+### 2. Identidade da turma
 
-- `units`: `name`, `motto` (lema, até 80 caracteres), `colors` (2 a 3 cores hex, que formam
-  a "bandeira"), `emblem` (escolhido de um conjunto de ícones da instância) e
-  `municipality_code` (a região da turma).
-- **Upload de logo fica para a fase 2.** Ele exige armazenamento, moderação (um logo ofensivo
-  vira problema da organização) e cuidado com formato. **SVG enviado pelo usuário é
-  proibido**, porque pode carregar script. Quando vier: só PNG/JPEG/WebP, até 512 KB, em
-  bucket com tipo e tamanho restritos, aprovado pelo monitor.
+- **Turma = equipe.** É o mesmo conceito: um grupo de alunos com um monitor. **Cada aluno
+  está em uma turma só** e pode ser **movido** de uma turma para outra (gera um evento no
+  audit_log).
+- O **nome** da turma é definido pelo monitor ou pela nacional [?]. A **identidade é criada
+  pela própria turma**: logo, bandeira (cores) e lema.
+- `units`: `name`, `motto` (até 80 caracteres), `colors` (2 a 3 cores hex), `logo_path` e
+  `logo_status` (`pending`, `approved`, `rejected`), `public_links` (redes sociais **da
+  turma**, até 5 URLs https) e `municipality_code` (a região).
+- **Upload de logo, com regras:**
+  - só PNG, JPEG ou WebP, até 512 KB;
+  - **SVG é proibido**, porque pode carregar script;
+  - bucket do Supabase Storage com tipo e tamanho restritos (cabe no plano gratuito);
+  - o logo **só aparece depois de aprovado pelo monitor** (moderação).
+- As redes sociais da turma são da organização, não da pessoa: ficam em texto puro em
+  `public_links`, e não confundem com as redes pessoais, que ficam cifradas em
+  `profile_contacts`.
 
 ### 3. Missões e etapas
 
 ```
 missions(id, title, description, category, scope_unit_id,      -- visível na unidade e abaixo
          status ('proposed','published','archived'),
+         origin ('national','regional'),                        -- definida por quem cria
+         mode ('individual','team'),                           -- cada um faz o seu, ou a turma junta
          repeatable bool, cooldown_days int null, badge_id null,
          proposed_by_unit_id null, created_by, created_at)
 mission_steps(id, mission_id, position, title, description, points int > 0,
               evidence_type ('none','link','protocol_number','text'),
               requires_previous bool)
-mission_runs(id, mission_id, unit_id, status ('active','completed','abandoned'),
+mission_runs(id, mission_id, unit_id, profile_id null (missão individual), status ('active','completed','abandoned'),
              started_at, completed_at)
 mission_run_members(run_id, profile_id)                          -- quem participou
 step_submissions(id, run_id, step_id, submitted_by,
@@ -69,6 +80,13 @@ points_ledger(id, unit_id, profile_id null, submission_id, points, reason,
 
 - **Etapas dão pontos extras** pelo aprofundamento: escrever (10) → protocolar (+30) →
   discursar (+20). `requires_previous` impõe a ordem quando faz sentido.
+- **Origem visível:** toda missão aparece marcada como **Nacional** (criada pela nacional) ou
+  **Regional** (criada pelo monitor, só para o seu escopo). A origem é gravada por trigger a
+  partir do papel de quem cria; não vem do formulário.
+- **Individual ou em equipe:** na missão individual, cada aluno tem a sua execução e a sua
+  entrega; na missão de turma, há uma execução com os participantes declarados.
+- **Evidência definida por quem cria:** para cada etapa, o criador escolhe se exige evidência
+  e de que tipo (`none` significa sem evidência).
 - **Repetição controlada:** `repeatable` + `cooldown_days`. Doação de sangue, por exemplo,
   pode ter intervalo mínimo entre uma vez e outra.
 
@@ -78,9 +96,9 @@ points_ledger(id, unit_id, profile_id null, submission_id, points, reason,
   permissão, muda o status e insere os lançamentos de pontos **na mesma transação**.
 - Lançamentos **nunca são editados nem apagados**: a RLS e um trigger bloqueiam. Uma correção
   é um lançamento negativo com motivo.
-- **Quem pontua:** a turma recebe os pontos da etapa, e cada participante declarado no
-  `mission_run_members` recebe os mesmos pontos individuais, que contam para badges
-  individuais [?].
+- **Quem pontua:** há **pontuação de turma e pontuação individual**. A turma recebe os pontos
+  da etapa; cada participante (ou o próprio aluno, na missão individual) recebe os pontos
+  individuais.
 - **Antifraude:**
   - ninguém valida entrega da qual participou (teste);
   - a mesma etapa não é aprovada duas vezes na mesma execução (constraint);
@@ -89,6 +107,7 @@ points_ledger(id, unit_id, profile_id null, submission_id, points, reason,
 
 ### 5. Propostas: discutir e propor na região
 
+- **Quem define missões:** só a **nacional** ou o **monitor**. A turma **sugere**.
 - Membros da turma criam uma **proposta de missão** (`status = 'proposed'`), com etapas e
   pontos sugeridos.
 - O monitor ou gestor revisa, ajusta os pontos e **publica**: só para aquela turma ou para
@@ -100,7 +119,7 @@ points_ledger(id, unit_id, profile_id null, submission_id, points, reason,
 ### 6. Placar
 
 - **Placar de turmas** dentro do mesmo escopo (ex.: as turmas de SP, as turmas de uma
-  cidade) e por período (mês, semestre) [?].
+  região) e por período, para estimular a competição entre turmas.
 - **Sem ranking público individual.** A pessoa vê os próprios pontos e badges; comparar
   pessoas gera pressão e incentivo à fraude.
 
@@ -110,13 +129,14 @@ points_ledger(id, unit_id, profile_id null, submission_id, points, reason,
   câmara, notícia, publicação oficial. Isso não carrega dado pessoal novo.
 - **Sem upload de fotos no POC.** Foto de ação na rua mostra terceiros.
 - **Missões de saúde (ex.: doação de sangue):** o fato "fulano doou sangue" é **dado de
-  saúde, portanto sensível** (LGPD art. 5º, II). **Nunca guardar comprovante.** Aceitar
-  autodeclaração validada pelo monitor, ou registrar a missão só no nível da turma, sem
-  participantes nominais [jurídico].
+  saúde, portanto sensível** (LGPD art. 5º, II). **O monitor decide como
+  comprovar** (ex.: autodeclaração validada), mas a plataforma **não aceita upload de
+  comprovante**.
 - O campo de evidência em texto exibe o aviso "não inclua dados de outras pessoas".
 
 ### 8. Badges
 
+- **Quem cria badges:** a nacional (vale para todos) e o monitor (vale para o seu escopo).
 - Tipos de regra: `mission_completed`, `points_threshold`, `manual`.
 - **Badges podem ser revogados** (`revoked_at`, `revoked_reason`), por exemplo por fraude
   descoberta depois. Ideia do protótipo original Vguedess/Complexo42.
@@ -128,4 +148,4 @@ points_ledger(id, unit_id, profile_id null, submission_id, points, reason,
 - (+) O livro-razão torna o placar auditável e à prova de "editar pontos na mão".
 - (−) Mais tabelas e uma função crítica (`app.approve_submission`), que exige testes de
   permissão, idempotência e antifraude.
-- (−) Sem upload, a identidade visual fica limitada a cores e emblemas no POC.
+- (−) Upload de logo exige moderação pelo monitor e cuidado com o formato (sem SVG).

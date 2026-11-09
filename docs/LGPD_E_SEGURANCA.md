@@ -17,8 +17,8 @@ Na prática, isso vira quatro camadas:
   banco. Um dump do banco não identifica ninguém.
 - **ADR 0002:** cada monitor e gestor vê só o seu escopo (turma/equipe, UF, nacional), com
   ver contato auditado.
-- **ADR 0005:** uma campanha futura será outra instância (outro banco, outras chaves); a base da Academia não é
-  compartilhada com ela.
+- **ADR 0005:** cada uso do código é uma instância separada (outro banco, outras chaves);
+  a base da Academia nunca é compartilhada com outra instância.
 
 ## 2. LGPD — checklist
 
@@ -46,7 +46,7 @@ Na prática, isso vira quatro camadas:
 | Monitor ou gestor acessa fora do seu escopo | Funções `app.can_*` em todas as políticas + matriz de testes de permissão |
 | Dump do banco ou backup vazado | Nome, WhatsApp e redes cifrados; chave só nos secrets da hospedagem (ADR 0003) |
 | Monitor copia contatos em massa | Contato fora da listagem; "ver contato" auditado; exportação só nacional e sem WhatsApp |
-| Base da Academia usada em campanha | Instâncias separadas: banco, chaves e domínio próprios (ADR 0005) |
+| Base da Academia reaproveitada em outro uso | Instâncias separadas: banco, chaves e domínio próprios (ADR 0005) |
 | Segredo commitado | gitleaks no CI + `.gitignore` + rotação de chaves |
 | Conta de admin roubada | MFA obrigatório nas contas do GitHub, Supabase e hospedagem; no máximo 3 admins |
 | Injeção (XSS) via redes sociais ou "feitos" | Escape padrão do React; proibido `dangerouslySetInnerHTML`; links só `https://` e com `rel="noopener noreferrer"` |

@@ -47,17 +47,17 @@
 
 - #22 Delegação de papéis por escopo (nacional → estadual → monitor) + audit_log — `bloqueada, seguranca, backend`
 - #23 Lista de alunos com filtros por habilidade, município e distrito — `bloqueada, frontend, backend`
-- #24 Contagem de alunos por região — `bloqueada, bom-primeiro-issue, frontend, backend`
+- #24 Mapa de calor dos alunos por região — `bloqueada, bom-primeiro-issue, frontend, backend`
 - #25 Gestão do catálogo de habilidades (admin) — `bloqueada, frontend, backend`
 - #26 Aprovação de cadastros pendentes — `bloqueada, precisa-decisao, frontend, backend`
-- #47 Unidades: criar turmas e equipes, matricular alunos e nomear monitores — `bloqueada, frontend, backend`
+- #47 Turmas: criar, matricular (um aluno por turma), mover aluno e nomear monitor — `bloqueada, frontend, backend`
 - #48 'Ver contato' com auditoria — `bloqueada, seguranca, frontend, backend`
 
 ## M3 · Turmas e identidade
 
 - #28 Criar equipe e adicionar membros a partir dos filtros — `bloqueada, frontend, backend`
 - #29 Definir líder e página 'Minhas equipes' — `bloqueada, frontend, backend`
-- #56 Identidade da turma: nome, lema, cores e emblema — `bloqueada, bom-primeiro-issue, frontend, backend`
+- #56 Identidade da turma: nome, lema, cores e emblema — `bloqueada, frontend, backend`
 
 ## M4 · Missões e pontos
 
@@ -74,7 +74,7 @@
 - #36 Badges automáticos: missão concluída e limite de pontos — `bloqueada, backend`
 - #37 Exibir medalhas no perfil — `bloqueada, bom-primeiro-issue, frontend`
 - #49 Painel de acompanhamento por escopo — `bloqueada, frontend, backend`
-- #58 Placar de turmas por escopo e período — `bloqueada, precisa-decisao, frontend, backend`
+- #58 Placar de turmas por escopo e período — `bloqueada, frontend, backend`
 
 ## M6 · Piloto RMSP
 

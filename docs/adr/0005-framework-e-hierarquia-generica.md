@@ -6,13 +6,12 @@
 
 ## Contexto
 
-O mesmo código será usado em **sistemas separados**: a Academia, futuramente campanhas
-eleitorais e até a organização do próprio time de TI. Cada uso tem uma hierarquia diferente:
+O mesmo código poderá ser usado em **sistemas separados**: a Academia e, no futuro, outros
+usos, como a organização do próprio time de TI. Cada uso tem uma hierarquia diferente:
 
 | Uso | Hierarquia |
 |---|---|
-| Academia | Nacional → Estado → Turma → Equipe |
-| Campanha | Nacional/Estadual → Município → Zona → Equipe |
+| Academia | Nacional → Estado → [Região, opcional] → Turma (turma = equipe) |
 | Time de TI | Projeto → Squad |
 
 ## Decisão
@@ -26,16 +25,16 @@ banco.
 - (+) Isolamento total e simples: um vazamento numa instância não toca as outras.
 - (+) Sem `organization_id` nas tabelas, o que remove uma condição de todas as políticas RLS.
   **A regra R17 do `AGENTS.md` sai.**
-- (+) Atende o ponto jurídico: a base da Academia nunca está no mesmo banco que uma campanha.
+- (+) A base da Academia nunca está no mesmo banco que outro uso.
 
 ### 2. Hierarquia genérica de unidades (substitui as tabelas fixas estado/turma/equipe)
 
 ```
 unit_types(id, key, label, level)            -- configuração da instância
-  ex.: national(0) "Nacional", state(1) "Estado", class(2) "Turma", team(3) "Equipe"
+  ex.: national(0) "Nacional", state(1) "Estado", region(2) "Região" (opcional), class(3) "Turma"
 
 units(id, type_id, parent_id, name, path ltree, state_code null, status)
-  ex.: brasil > sp > turma-2026-1 > equipe-azul
+  ex.: brasil > sp > zona-leste > turma-azul   (ou brasil > sp > turma-azul, sem região)
 
 unit_members(unit_id, profile_id, member_role, joined_at)
 
@@ -50,7 +49,7 @@ As regras do ADR 0002 ficam assim:
 
 | ADR 0002 | Neste modelo |
 |---|---|
-| Monitor da turma/equipe | `monitor` em uma unidade do tipo `class` ou `team` |
+| Monitor da turma | `monitor` em uma unidade do tipo `class` (ou `region`) |
 | Gestor estadual | `manager` em uma unidade do tipo `state` |
 | Gestor nacional | `manager` na unidade raiz |
 | Delegação só para baixo | Só se concede papel em unidade **descendente** da sua, e `monitor` nunca concede |
@@ -63,8 +62,8 @@ As regras do ADR 0002 ficam assim:
 Arquivo `config/instance.ts` (versionado) mais o seed da instância:
 
 - Nome, logo e cores.
-- Tipos de unidade e seus rótulos ("Turma", "Zona", "Squad").
-- Rótulos de papel ("Monitor", "Coordenador de zona").
+- Tipos de unidade e seus rótulos ("Turma", "Região", "Squad").
+- Rótulos de papel ("Monitor", "Coordenador regional").
 - Catálogo inicial de habilidades e badges.
 - Texto do termo de consentimento.
 
