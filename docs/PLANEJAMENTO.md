@@ -80,7 +80,12 @@ dados [?].
 - RF06: Como aluno, baixo meus dados (direito de acesso da LGPD).
 
 **Coordenação (M2)**
-- RF07: Como coordenador, filtro alunos por habilidade, município e bairro.
+- RF07: **Como gestor (principalmente o nacional), encontro pessoas por habilidade de forma
+  fácil e rápida.** Exemplo: "quem sabe edição de vídeo e oratória em SP?". Combino várias
+  habilidades (todas ou qualquer uma), nível, estado, região, município e turma. A busca
+  sugere habilidades enquanto digito, inclusive por sinônimo ("designer" → Design). Vejo o
+  resultado em segundos, com nome, turma, habilidades e pontos, e o contato só ao clicar
+  (auditado). É um requisito prioritário (issue #23).
 - RF08: Como coordenador, vejo um **mapa de calor** dos alunos por município/distrito (agregado,
   sem localização precisa; regiões com menos de 5 pessoas aparecem como "< 5").
 - RF09: Como administrador, gerencio o catálogo de habilidades e os papéis.

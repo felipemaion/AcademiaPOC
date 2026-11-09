@@ -82,6 +82,7 @@ v1.<iv base64url, 12 bytes aleatórios>.<ciphertext+tag base64url>
 | Invasor que controla o **servidor** em execução | Tem chave e sessão: consegue decifrar. Mitigação: secrets só no provedor, MFA, poucas pessoas com acesso, dependências revisadas |
 | E-mail em `auth.users` | Fica em texto puro (gerenciado pelo Supabase). Mitigação: não é exibido nem exportado. Avaliar no M0 se o login Google sozinho basta |
 | Monitor mal-intencionado copiando contatos | Ele vê só o seu escopo, e cada visualização fica auditada |
+| Busca por habilidade | Sem impacto: habilidades, região e turma ficam em texto puro e indexadas; o filtro roda no banco e só a página exibida é decifrada |
 | Busca por nome | Não dá para buscar texto cifrado no banco: o servidor decifra o conjunto do escopo e filtra em memória. Funciona até dezenas de milhares de registros; reavaliar na expansão |
 
 ## Alternativas consideradas

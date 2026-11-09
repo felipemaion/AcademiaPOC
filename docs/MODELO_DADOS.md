@@ -98,7 +98,10 @@ null, `municipality_code` null (região), `motto` null (≤ 80), `colors` (2 a 3
 `granted_at`, `revoked_at`. O papel vale na unidade **e em todas abaixo dela**.
 
 ### `skills` e `profile_skills`
-`skills`: `id`, `name`, `category`, `active`.
+`skills`: `id`, `name`, `category`, `aliases` (text[], sinônimos para a busca), `active`.
+Índices: `profile_skills(skill_id, profile_id)` e GIN em `skills.aliases`. A **busca por
+habilidade roda no banco** (texto puro, indexado); só os nomes da página exibida são
+decifrados no servidor (ADR 0003 §6).
 `profile_skills`: `profile_id`, `skill_id`, `level` [?].
 
 ### Missões, entregas e pontos (ADR 0006)
