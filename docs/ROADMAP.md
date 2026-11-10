@@ -4,18 +4,17 @@
 
 | Milestone | Data-alvo | Entrega |
 |---|---|---|
-| M0 · Fundação e decisões | 2026-11-23 | Kickoff com stakeholder, ADR da stack aprovado, scaffold, CI e guardrails de segurança funcionando. |
-| M1 · Cadastro do aluno | 2026-12-07 | Aluno entra por convite, aceita o termo, preenche e edita o perfil, baixa e exclui seus dados. |
-| M2 · Painel da coordenação | 2026-12-21 | Papéis, filtros por habilidade e região, contagem por região, catálogo de habilidades. |
-| M3 · Turmas e identidade | 2027-01-18 | Turmas e equipes com nome, lema, cores e emblema; matrícula e monitores. |
-| M4 · Missões e pontos | 2027-02-01 | Catálogo de missões com etapas e pontos, entregas, validação e livro-razão de pontos (ADR 0006). |
-| M5 · Badges, placar e acompanhamento | 2027-02-15 | Badges revogáveis, placar de turmas por escopo e painel de acompanhamento. |
-| M6 · Piloto RMSP | 2027-03-01 | Produção, revisão de segurança, teste com grupo pequeno e lançamento na Região Metropolitana. |
+| M0 · Fundação e decisões | 2026-11-30 | Kickoff com stakeholder, ADR da stack aprovado, scaffold, CI e guardrails de segurança funcionando. |
+| M1 · Cadastro do aluno | 2026-12-21 | Aluno entra por convite, aceita o termo, preenche e edita o perfil, baixa e exclui seus dados. |
+| M2 · Painel da coordenação | 2027-01-08 | Papéis, filtros por habilidade e região, contagem por região, catálogo de habilidades. |
+| M3 · Turmas e identidade | 2027-01-15 | Turmas e equipes com nome, lema, cores e emblema; matrícula e monitores. |
+| M4 · Missões e pontos | 2027-02-22 | Catálogo de missões com etapas e pontos, entregas, validação e livro-razão de pontos (ADR 0006). |
+| M5 · Badges, placar e acompanhamento | 2027-03-08 | Badges revogáveis, placar de turmas por escopo e painel de acompanhamento. |
+| M6 · Piloto RMSP | 2027-01-25 | Produção, revisão de segurança, teste com grupo pequeno e lançamento na Região Metropolitana. |
 | M7 · Expansão SP/Brasil | a definir | Coordenação regional com escopo e ampliação da base de municípios. |
 
 ## M0 · Fundação e decisões
 
-- #1 Reunião de kickoff: responder as perguntas bloqueantes (⛔) — `precisa-decisao, docs`
 - #2 Aprovar ADR 0001 (stack) e escolher a hospedagem gratuita — `precisa-decisao, infra, docs`
 - #3 Scaffold: Next.js + TypeScript estrito + Tailwind + Zod + Vitest + `npm run check` — `bloqueada, infra`
 - #4 Supabase local + migrations + teste 'toda tabela pública tem RLS' — `bloqueada, seguranca, backend, infra`
@@ -26,8 +25,9 @@
 - #45 Módulo de criptografia de campo (`src/server/crypto`) + HMAC — `bloqueada, seguranca, backend`
 - #52 Ambiente de dev: scripts `npm run setup`/`db:*`, `.env.example` e devcontainer validado — `bloqueada, infra`
 - #53 Validar o ONBOARDING com o primeiro dev novo — `bloqueada, bom-primeiro-issue, docs`
-- #59 Escolher a licença do código — `precisa-decisao, docs`
 - #60 Endurecer o CI: fixar actions por SHA e `persist-credentials: false` — `pronta, seguranca, bom-primeiro-issue, infra`
+- #67 Diagrama da estrutura organizacional e dos papéis (ADR 0007) — `precisa-decisao, docs`
+- #68 Plano de testes automatizados e pentest — `seguranca, infra`
 
 ## M1 · Cadastro do aluno
 
@@ -46,7 +46,7 @@
 ## M2 · Painel da coordenação
 
 - #22 Delegação de papéis por escopo (nacional → estadual → monitor) + audit_log — `bloqueada, seguranca, backend`
-- #23 Lista de alunos com filtros por habilidade, município e distrito — `bloqueada, frontend, backend`
+- #23 Busca de pessoas por habilidade (prioridade do gestor nacional) — `bloqueada, frontend, backend`
 - #24 Mapa de calor dos alunos por região — `bloqueada, bom-primeiro-issue, frontend, backend`
 - #25 Gestão do catálogo de habilidades (admin) — `bloqueada, frontend, backend`
 - #26 Aprovação de cadastros pendentes — `bloqueada, precisa-decisao, frontend, backend`
@@ -58,6 +58,8 @@
 - #28 Criar equipe e adicionar membros a partir dos filtros — `bloqueada, frontend, backend`
 - #29 Definir líder e página 'Minhas equipes' — `bloqueada, frontend, backend`
 - #56 Identidade da turma: nome, lema, cores e emblema — `bloqueada, frontend, backend`
+- #69 Equipes rotativas: histórico de vínculos e porta-voz do ciclo (ADR 0007 §2) — `seguranca, backend`
+- #70 Portfólio por links com prévia incorporada (ADR 0007 §5) — `seguranca, frontend`
 
 ## M4 · Missões e pontos
 
@@ -75,6 +77,8 @@
 - #37 Exibir medalhas no perfil — `bloqueada, bom-primeiro-issue, frontend`
 - #49 Painel de acompanhamento por escopo — `bloqueada, frontend, backend`
 - #58 Placar de turmas por escopo e período — `bloqueada, frontend, backend`
+- #71 Novos tipos de medalha: evento, "trabalhou com", marco e presença (ADR 0007 §3) — `backend`
+- #72 Avaliação reservada com acesso por pedido auditado (ADR 0007 §4) — `bloqueada, seguranca, backend`
 
 ## M6 · Piloto RMSP
 
