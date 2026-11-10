@@ -47,6 +47,8 @@ Na prática, isso vira quatro camadas:
 | Dump do banco ou backup vazado | Nome, WhatsApp e redes cifrados; chave só nos secrets da hospedagem (ADR 0003) |
 | Monitor copia contatos em massa | Contato fora da listagem; "ver contato" auditado; exportação só nacional e sem WhatsApp |
 | Base da Academia reaproveitada em outro uso | Instâncias separadas: banco, chaves e domínio próprios (ADR 0005) |
+| Avaliação reservada vazada ou usada para disputa interna | Cifrada; só quem avaliou lê a própria; gestor só por pedido com motivo, auditado; desligada até parecer jurídico (ADR 0007 §4) |
+| Portfólio usado para injetar conteúdo | Sem upload; prévia só de domínios de lista fechada com `frame-src` restrito; demais links como link comum (ADR 0007 §5) |
 | Segredo commitado | gitleaks no CI + `.gitignore` + rotação de chaves |
 | Conta de admin roubada | MFA obrigatório nas contas do GitHub, Supabase e hospedagem; no máximo 3 admins |
 | Injeção (XSS) via redes sociais ou "feitos" | Escape padrão do React; proibido `dangerouslySetInnerHTML`; links só `https://` e com `rel="noopener noreferrer"` |

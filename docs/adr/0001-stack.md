@@ -42,6 +42,18 @@ planos gratuitos, inclusive nos termos de uso (ex.: o Vercel Hobby é não comer
 favorece a Cloudflare). Notificações por SMS ou WhatsApp, IA paga e upgrades ficam fora.
 Um custo mínimo (ex.: domínio próprio) só entra com aprovação explícita do gestor.
 
+**Reunião de kickoff (2026-11-09):**
+
+- O stakeholder aceita um **teto de R$ 100/mês**, mas a meta continua sendo custo zero.
+  Qualquer gasto exige ADR.
+- **Vercel:** o time já levou susto com cobrança num pico de acessos de outro projeto. Isso
+  reforça a Cloudflare, que tem plano gratuito sem cobrança por pico, e a proteção contra
+  ataques na frente.
+- **VPS gratuita da Oracle:** membros do time já têm uma. Ela pode rodar tarefas
+  agendadas, como o backup semanal (#38), desde que o backup seja **cifrado** e a chave
+  fique só com os mantenedores. Voluntário não guarda dado de produção em texto puro.
+- **Linguagem:** TypeScript no front e no back, com TDD.
+
 ## Consequências
 
 - (+) Tudo roda localmente com `supabase start`; os voluntários nunca tocam produção.

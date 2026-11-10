@@ -12,6 +12,23 @@
   Os alunos se cadastram e executam as tarefas.
 - **Futuro:** o mesmo código poderá servir a outros usos (ex.: organizar times de voluntários),
   cada um como **instância separada** (ADR 0005).
+- **Reunião de kickoff (2026-11-09):** depois da Academia, os ex-alunos formam **equipes
+  rotativas** que apoiam porta-vozes em formação, com medalhas, portfólio e avaliação
+  reservada (ADR 0007). Os grupos de WhatsApp continuam; a plataforma direciona cada pessoa
+  ao grupo certo.
+- **Cronograma do stakeholder:**
+
+  | Quando | O quê |
+  |---|---|
+  | até ~16/11 | Alinhamento: diagrama da estrutura organizacional e dos papéis |
+  | até ~30/11 | Arquitetura da solução e plano de testes (inclui pentest) |
+  | início de janeiro | Plataforma pronta (cadastro, habilidades, busca, equipes) |
+  | fim de janeiro | Cadastro dos ex-alunos e direcionamento aos grupos |
+  | março em diante | Atividades, missões e medalhas; montagem das equipes até ~julho |
+
+  **Plano B** (do próprio stakeholder): se não ficar pronto, o cadastro de janeiro é feito
+  num formulário. Por isso o cadastro e a busca por habilidade têm prioridade sobre missões
+  e medalhas.
 - **Segurança definida:** dados pessoais cifrados (ADR 0003) e acesso hierárquico por escopo
   (ADR 0002): monitor → turma/equipe; gestor estadual → UF; gestor nacional → tudo.
 
@@ -44,7 +61,11 @@ executa com **medalhas virtuais**. Tudo isso com o mínimo de dados pessoais e c
    missões para a sua região.
 5. **Identidade e placar**: turma com nome, lema, cores e emblema; placar de turmas por
    escopo e período.
-6. **Badges**: por missão concluída, por pontos ou manual; revogáveis.
+6. **Medalhas** (ADR 0006 §8 e ADR 0007 §3): manual, de evento, "trabalhou com" (do
+   porta-voz), de marco, de presença, por missão ou por pontos; revogáveis.
+7. **Equipes rotativas** (ADR 0007 §2): uma equipe por vez, com histórico.
+8. **Portfólio por links** (ADR 0007 §5): até 3 itens, com prévia, sem guardar arquivos.
+9. **Avaliação reservada** (ADR 0007 §4): desligada até o parecer jurídico.
 
 ### Fora do POC (por enquanto)
 - Chat interno: o WhatsApp continua sendo o canal de conversa.
@@ -53,7 +74,8 @@ executa com **medalhas virtuais**. Tudo isso com o mínimo de dados pessoais e c
 - Upload de fotos, documentos e logos (fase 2; ver ADR 0006 §2 e §7).
 - Ranking público **individual** (o placar é só entre turmas).
 - Chat/salas internas (a discussão segue no WhatsApp da turma).
-- Avaliações de desempenho individuais (como as do protótipo original, Vguedess/Complexo42): dado pessoal sensível de gerir.
+- Testes de personalidade e o módulo de formação de porta-vozes (ADR 0007 §6).
+- Importação de bases existentes: cada pessoa se cadastra do zero.
 - Coordenação multi-estado (fica preparada no modelo, mas não é exposta na interface).
 
 ## 4. Personas e papéis (definidos — ADR 0002)
