@@ -38,7 +38,7 @@ Como a equipe trabalha: [`docs/GESTAO_EQUIPE.md`](docs/GESTAO_EQUIPE.md).
 | [`docs/MODELO_DADOS.md`](docs/MODELO_DADOS.md) | Entidades e lista fechada de campos permitidos |
 | [`docs/LGPD_E_SEGURANCA.md`](docs/LGPD_E_SEGURANCA.md) | Minimização de dados, ameaças e controles |
 | [`docs/PERGUNTAS_STAKEHOLDER.md`](docs/PERGUNTAS_STAKEHOLDER.md) | Perguntas em aberto para a reunião |
-| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · ~~0004~~ · **0005 framework e hierarquia genérica** · **0006 missões, pontos e identidade das turmas** |
+| [`docs/adr/`](docs/adr/) | Decisões: 0001 stack · **0002 permissões por escopo** · **0003 criptografia dos dados** · ~~0004~~ · **0005 framework e hierarquia genérica** · **0006 missões, pontos e identidade das turmas** · **0007 equipes rotativas, medalhas e avaliação reservada** |
 | [`SECURITY.md`](SECURITY.md) | Como reportar uma vulnerabilidade |
 
 ## Licença

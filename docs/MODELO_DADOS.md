@@ -12,6 +12,8 @@
 | Nome | `profiles.display_name_enc` | AES-256-GCM | Escopo do monitor/gestor; colegas de equipe |
 | WhatsApp | `profile_contacts.whatsapp_enc` + `whatsapp_hmac` | AES-256-GCM + HMAC | Escopo, ao clicar em "ver contato" (auditado); colegas de equipe [?] |
 | Redes sociais (máx. 5 URLs https) | `profile_contacts.social_links_enc` | AES-256-GCM | Escopo (auditado) |
+| Portfólio (máx. 3 links https) | `portfolio_items.url_enc` | AES-256-GCM | Escopo, porta-voz da equipe (ADR 0007 §5) |
+| Avaliação reservada | `member_evaluations.grade_enc`, `note_enc` | AES-256-GCM | **Só quem avaliou**; gestor por pedido auditado (ADR 0007 §4) [jurídico] |
 | E-mail de login | `auth.users` (Supabase) | Texto puro, gerenciado pelo Supabase | **Ninguém**: nunca exibido nem exportado |
 
 Ficam **em texto puro**, por não identificarem sozinhos: município, UF, turma, equipe,
@@ -91,10 +93,12 @@ null, `municipality_code` null (região), `motto` null (≤ 80), `colors` (2 a 3
 "bandeira"), `logo_path` null + `logo_status` (`pending`, `approved`, `rejected`),
 `public_links` (redes **da turma**, até 5 URLs https), `starts_on`/`ends_on` null,
 `status`. Logo só PNG/JPEG/WebP ≤ 512 KB, **nunca SVG** (ADR 0006 §2).
-`unit_members`: `unit_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`.
+`unit_members`: `unit_id`, `profile_id`, `member_role` (`lead`, `member`), `joined_at`,
+`left_at` null, `left_reason` null. Mover alguém encerra o vínculo (não apaga): é o
+**histórico** da pessoa (ADR 0007 §2). Índice único parcial: um vínculo aberto por pessoa.
 
 ### `role_assignments` (ADR 0002 + 0005)
-`id`, `profile_id`, `role` (`monitor`, `manager`, `tech_admin`), `unit_id`, `granted_by`,
+`id`, `profile_id`, `role` (`monitor`, `manager`, `spokesperson`, `tech_admin`), `unit_id`, `granted_by`,
 `granted_at`, `revoked_at`. O papel vale na unidade **e em todas abaixo dela**.
 
 ### `skills` e `profile_skills`
@@ -125,11 +129,19 @@ decifrados no servidor (ADR 0003 §6).
 
 ### `badges` e `profile_badges`
 `badges`: `id`, `scope_unit_id` (nacional ou escopo do monitor), `created_by`, `name`,
-`description`, `icon`, `rule_type` (`manual`,
-`mission_completed`, `points_threshold`), `rule_params` jsonb.
+`description`, `icon`, `rule_type` (`manual`, `event`, `worked_with`, `milestone`,
+`attendance`, `mission_completed`, `points_threshold`), `rule_params` jsonb,
+`named_after_profile_id` null + `story` null (medalha de marco, ADR 0007 §3).
 `profile_badges`: `profile_id`, `badge_id`, `awarded_at`, `awarded_by` (null quando
 automático), `submission_id` null, `reason`, `revoked_at` null, `revoked_by` null,
 `revoked_reason` null.
+
+### `portfolio_items` e `member_evaluations` (ADR 0007)
+`portfolio_items`: `id`, `profile_id`, `url_enc`, `kind`, `title` (≤ 80), `position`
+(máx. 3 por pessoa).
+`member_evaluations`: `id`, `profile_id`, `evaluator_id`, `unit_id`, `cycle_ends_on`,
+`grade_enc`, `note_enc` null, `created_at`. Só INSERT; leitura por
+`app.request_evaluation_access` (gera `evaluation_viewed`).
 
 ### `audit_log`
 `id`, `actor_id`, `event` (`contact_viewed`, `role_granted`,

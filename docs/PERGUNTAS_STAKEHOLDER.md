@@ -29,6 +29,36 @@
 | Orçamento (#36, #60) | **Custo zero.** Só planos gratuitos; qualquer custo exige aprovação explícita do gestor | ADR 0001, AGENTS R19 |
 | Ações e gamificação (#25, #31) | Missões com etapas e pontos (ex.: lei escrita + bônus por protocolar), validadas, com badges | ADR 0006 |
 
+## Respostas da reunião de kickoff (2026-11-09)
+
+| Tema | Resposta | Onde ficou registrado |
+|---|---|---|
+| Uso depois da Academia | Ex-alunos formam **equipes** que apoiam porta-vozes em formação; a equipe é da organização e **roda** entre porta-vozes | ADR 0007 §1–2 |
+| Uma pessoa em várias equipes? (#57) | **Não**: uma por vez, com rodízio por ciclos (3 a 5 meses [?]) e histórico preservado | ADR 0007 §2 |
+| Quem cria medalhas (#51) | Nacional e coordenadores; **cada porta-voz tem a sua** ("trabalhou com"); medalhas de evento e de marco ("o primeiro a atingir dá o nome") | ADR 0007 §3 |
+| Ranking | **Nenhum ranking que desestimule quem chega depois.** Medalha é registro de feito, não corrida | ADR 0007 §3 |
+| Avaliação de desempenho | Sim, **reservada**: bronze/prata/ouro, invisível para a pessoa e para outros coordenadores; consulta só por pedido auditado [jurídico] | ADR 0007 §4 |
+| Portfólio | Até 3 links com prévia (YouTube etc.); **a plataforma não guarda arquivos** | ADR 0007 §5 |
+| Teste de personalidade | Fora do POC; triagem humana | ADR 0007 §6 |
+| Dados do cadastro (#11–#13) | No máximo o celular; **município e bairro** escolhidos em lista; nada de CPF ou CEP | MODELO_DADOS |
+| Base inicial | Cada pessoa se cadastra do zero; sem importar bases | ADR 0007 §6 |
+| LGPD | Termo de consentimento validado pelo jurídico que já atende a equipe (o termo não tira a responsabilidade de proteger os dados) | issue do termo |
+| Orçamento (#36, #60) | Meta continua **custo zero**; teto de **R$ 100/mês** aceito pelo stakeholder, só com ADR | ADR 0001 |
+| Linguagem | TypeScript no front e no back; TDD; código que outra pessoa consiga manter depois | ADR 0001, AGENTS |
+| Prazo | Alinhamento e arquitetura até o fim de novembro; plataforma pronta no **início de janeiro**; cadastro dos ex-alunos no **fim de janeiro**; atividades a partir de **março** | PLANEJAMENTO §0 |
+| Canal | Os grupos de WhatsApp continuam; a plataforma direciona cada pessoa ao grupo certo | PLANEJAMENTO §0 |
+
+### Perguntas que surgiram na reunião
+
+62. **Ciclo de rodízio:** qual a duração padrão (3, 4 ou 5 meses)? Quem decide a troca?
+63. **Porta-voz vê o WhatsApp da equipe?** Sugestão: não; o coordenador cria o grupo.
+64. **Avaliação escondida da própria pessoa:** o jurídico aceita? (LGPD art. 18, II)
+65. **Status na Academia:** guardar ano de turma e se concluiu? Sugestão: só o ano.
+66. **Placar entre turmas** continua, dado o princípio "sem corrida"? Sugestão: placar só
+    por período (mês), zerando, sem acumulado histórico.
+67. **Quem é o primeiro público** do cadastro: só ex-alunos deste ano, ou também de anos
+    anteriores?
+
 ## Novas perguntas (após as definições)
 
 46. ⛔ **O que é uma turma?** Tem monitor fixo, datas de início e fim? Um aluno pode estar em

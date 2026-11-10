@@ -38,7 +38,7 @@ apenas aponta para cá. **Em caso de conflito, este arquivo vence.**
 | R16 | **Todo PR que toca permissão atualiza `supabase/tests/permissions_matrix.test.sql`**, com pelo menos um caso "fora do escopo → negado". |
 | R17 | **Código genérico** (ADR 0005): nomes como `unit`, `member`, `task`, `badge`. Nunca nomes de instância (ex.: "academia", "turma") fixos no código; textos da interface vêm de `config/`. |
 | R18 | Arquivos críticos (`supabase/`, `src/server/crypto/`, `src/server/auth/`, `.github/`, `AGENTS.md`) só entram com **aprovação do code owner**. |
-| R19 | **Custo zero.** Proibido adicionar serviço, API, plano ou dependência que gere cobrança (SMS, WhatsApp API, IA paga, upgrade de plano, add-on do marketplace). Só planos gratuitos, e só com ADR aprovado pelo gestor. Na dúvida sobre custo, pergunte na issue. |
+| R19 | **Custo zero.** Proibido adicionar serviço, API, plano ou dependência que gere cobrança (SMS, WhatsApp API, IA paga, upgrade de plano, add-on do marketplace). Só planos gratuitos; qualquer exceção (teto de R$ 100/mês) exige ADR aprovado pelo gestor. Na dúvida sobre custo, pergunte na issue. |
 
 ## 2. Convenções
 
