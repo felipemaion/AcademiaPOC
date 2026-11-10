@@ -72,8 +72,8 @@ regras de segurança. Um novo uso que precise de outro campo pessoal exige ADR p
 
 ### 4. Código genérico
 
-- Nomes no código são genéricos: `unit`, `member`, `task`, `badge`. Nunca "academia",
-  "turma" ou "mbl".
+- Nomes no código são genéricos: `unit`, `member`, `task`, `badge`. Nunca nomes da
+  instância (ex.: "academia", "turma").
 - Textos da interface vêm de `config/` e dos rótulos do banco, nunca fixos no componente.
 
 ## Consequências

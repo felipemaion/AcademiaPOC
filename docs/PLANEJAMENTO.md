@@ -5,7 +5,7 @@
 
 ## 0. Contexto (atualizado em 2026-11-09)
 
-- **Quem desenvolve:** alunos de TI da própria Academia (Valete/MBL), a maioria fazendo
+- **Quem desenvolve:** alunos de TI da própria Academia, a maioria fazendo
   "vibe coding" com IA. O gestor do projeto atua como sênior e revisor (code owner).
 - **Quem usa:** os **monitores** e **gestores** da Academia, para identificar habilidades,
   criar tarefas, acompanhar os **feitos** (tarefas concluídas e validadas) e dar **badges**.
